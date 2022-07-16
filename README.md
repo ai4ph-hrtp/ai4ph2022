@@ -5,6 +5,6 @@ This repository contains the Twitter dataset you will use for the tutorial sessi
 
 ## The Twitter Datasets
 
-1. TwitterDataforClassification
+1. TwitterDataforClassification.csv
 
-2. TwitterDataforTopicModelling
+2. TwitterDataforTopicModelling.csv
