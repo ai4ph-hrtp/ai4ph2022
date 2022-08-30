@@ -6,6 +6,5 @@ Welcome to the Artificial Intelligence for Public Health (AI4PH) event in 2022. 
 * TwitterDataforClassification.csv
 * TwitterDataforTopicModelling.csv
 
-## Raw `rmd` files for the Bookdown site: 
 
 The [tutorial site](https://bookdown.org/tianyuan09/ai4ph2022/) was created with R Markdown and **bookdown** (https://github.com/rstudio/bookdown). 
