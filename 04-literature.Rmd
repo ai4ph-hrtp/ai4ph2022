@@ -1,0 +1,219 @@
+# Data Challenge Prep
+
+
+## N2C2 NLP Research Datasets 
+
+The data on obesity and comorbidities came from 1237 discharge summaries in the Partners HealthCare Research Patient Data Repository [@Uzuner2009-na]. These data were derived from discharge summaries of patients who were overweight or diabetic and had been hospitalised for obesity or diabetes after December 1, 2004.
+
+The N2C2 NLP Research Datasets are in XML format. 
+
+* `obesity_patient_records_test.xml`
+* `obesity_patient_records_training.xml`
+* `obesity_patient_records_training2.xml`
+* `obesity_standoff_annotations_training.xml`
+
+## Initial R Setup
+
+Install and import the necessary packages:
+
+```{r setup, include=TRUE, collapse = TRUE,eval = TRUE,warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# required packages: XML - for reading XML
+library(XML) # required for reading xml data.
+library(xml2)
+library(tidyverse)
+```
+
+## Reading XML files in R 
+
+Extensible Markup Language (XML) is a data format. XML files have an extension of `.xml`. XML file often has a tree stucture. It has a root element, and the root has one or more child nodes.
+In R, we can use the function `xmlParse()` (in [XML](https://cran.r-project.org/web/packages/XML/index.html) package) to read XML files. 
+
+We created two user-defined functions for reading three testing and training XML files. 
+
+```{r userdefinedfunctions, eval=TRUE, include=TRUE, collapse = TRUE,warning=FALSE}
+# function to extract both attributes and text from XML data using xpath
+extractXMLTextwithAttributesPTRecord <- function(xmlFile, xmlTag) {
+  # read xml file
+  xml <- read_xml(xmlFile)
+  # find all nodes that match doc and extract the attribute value
+  doc <- xml_find_all(xml, xpath = xmlTag)
+  # retrieve the value of a single attribute, in our case the "id" attribute
+  doc_id <- xml_attr(doc, "id")
+  # extra the text for the matched XML node
+  text <- xml_text(xml_find_all(xml,xpath=paste0(xmlTag,"/text")))
+  #create a tibble then covert to data frame
+  df <- tibble(doc_id, text) %>% as.data.frame()
+  # return extracted attributes as data frame
+  return(df)
+}
+
+# function to read xml with annotations and extract the text and attributes.
+extractAnnotationsXML <- function(xmlFile) {
+  # read xml file
+  xml <- read_xml(xmlFile)
+  #find all edge nodes
+  edge.nodes <- xml_find_all(xml, ".//doc")
+  #build the data.frame
+  #build the data.frame
+  df <- data.frame(Source = xml_find_first( edge.nodes, ".//ancestor::diseases") %>% xml_attr("source"),
+            diseaseName = xml_find_first( edge.nodes, ".//ancestor::disease") %>% xml_attr("name"),
+            doc_id = edge.nodes %>% xml_attr("id"),
+            judgment = edge.nodes %>% xml_attr("judgment"))
+  return(df)
+}
+```
+
+Reading the XML files using the user-defined functions.
+
+```{r xmlread, include=TRUE, collapse = TRUE, warning=FALSE}
+# read both the testing and training dataset.
+pt_record_test = extractXMLTextwithAttributesPTRecord("../DataChallengeDataset/obesity_patient_records_test.xml","//doc")
+pt_record_training1 = extractXMLTextwithAttributesPTRecord("../DataChallengeDataset/obesity_patient_records_training.xml","//doc")
+pt_record_training2 = extractXMLTextwithAttributesPTRecord("../DataChallengeDataset/obesity_patient_records_training2.xml","//doc")
+# merge two training datasets
+pt_record_training <- rbind(pt_record_training1, pt_record_training2)
+rm(pt_record_training1, pt_record_training2) # remove the temporary dataframes
+pt_record_test['Dataset'] <- "Test" # add a column for the test dataset
+pt_record_training['Dataset'] <- "Training" # add a column for the training dataset
+pt_record_raw <- rbind(pt_record_test, pt_record_training)
+
+#read the training annotations xml file
+annotations_training = extractAnnotationsXML("../DataChallengeDataset/obesity_standoff_annotations_training.xml")
+```
+
+## Preprocessing the `text` column in the `pt_record_raw` dataframe
+
+The `text` column need to be further processed to extract potential features as columns. 
+
+We often have to look at the text data and use our own judgement to extract relevant features for our research. Here i provided a list of features saved in the `pattern` variable after reviewing the patient discharge summaries. You can refer to the Appendix \@ref(appendixfeature) more details. 
+
+
+```{r preprocessing, include=TRUE, collapse = TRUE,warning=FALSE}
+
+# edit the pattern to add new features, use "|" to separate the potential features.
+pattern = "PRIMARY DIAGNOSIS:|DIAGNOSES:|ADMISSION DIAGNOSES:|DISCHARGE DIAGNOSES: |BRIEF HISTORY:|ADMISSION DIAGNOSIS:|ADMITTING DIAGNOSIS: |DISCHARGE DIAGNOSIS: |\\*\\*\\*\\*\\*\\* DISCHARGE ORDERS \\*\\*\\*\\*\\*\\*|ADDITIONAL COMMENTS:|\\*\\*\\*\\*\\*\\* FINAL DISCHARGE ORDERS \\*\\*\\*\\*\\*\\*|OTHER TREATMENTS\\/PROCEDURES \\( NOT IN O.R. \\)|DISCHARGE CONDITION:|DISCHARGE INSTRUCTIONS:|PHYSICAL EXAMINATION ON ADMISSION:|PAST SURGICAL HISTORY:|PRINCIPAL DIAGNOSIS:|MEDICATIONS ON ADMISSION:|CODE STATUS:|HOSPITAL COURSE BY SYSTEM:|HOSPITAL COURSE:|Attending:|FAMILY HISTORY:|HOSPITAL COURSE BY PROBLEM:|MEDICATIONS ON DISCHARGE:|MEDICATIONS:|Discharge Date:|Dictated By:|ATTENDING:|SERVICE:|ADMISSION INFORMATION AND CHIEF COMPLAINT:|CHIEF COMPLAINT:|HISTORY OF PRESENT ILLNESS:|ADMISSION LABS:|ADMISSION LABORATORY VALUES:|PAST MEDICAL HISTORY:|MEDICATIONS AT REHAB:|MEDICATIONS AT TIME OF ADMISSION:|PHYSICAL EXAMINATION:|ALLERGIES:|SOCIAL HISTORY:|FAMILY HISTORY:|HOSPITAL COURSE BY SYSTEM/ PROBLEM:|DISCHARGE STATUS:|CONTACTS AT THE HOSPITAL:|DISCHARGE LABORATORY VALUES:|DISCHARGE MEDICATIONS:|DISPOSITION:|ALLERGIES:|Service:|OTHER TREATMENTS/PROCEDURES ( NOT IN O.R. )|DISPOSITION:|BRIEF RESUME OF HOSPITAL COURSE:|ADMIT DIAGNOSIS:|TO DO/PLAN:|FOLLOW UP APPOINTMENT\\( S \\):|OPERATIONS AND PROCEDURES:|DISCHARGE MEDICATIONS:|Discharge Date:|Dictated By:|ATTENDING:|SERVICE:|ADMISSION INFORMATION AND CHIEF COMPLAINT:"
+
+temp = pt_record_raw %>% 
+  separate_rows(text,sep = "\n")%>% 
+  filter(text!="") %>% 
+  mutate(text_id = row_number())%>%
+  mutate(item_id = ifelse(str_starts(text,pattern),1,0))%>%
+  mutate(title = ifelse(item_id == 1,str_extract(text,pattern),NA))%>%
+  fill(title)%>%
+  group_by(doc_id)%>%
+  mutate(text_id_by_doc = row_number())%>%
+  mutate(title = ifelse(text_id_by_doc == 1,"OneLine",title))
+
+pt_record_final = temp %>% arrange(text_id)%>%group_by(doc_id, Dataset,title) %>%
+  summarize(longtext = paste0(text, collapse=" ")) %>%
+  pivot_wider(names_from = title, values_from = longtext)
+
+
+```
+
+
+## Descriptive Statistics
+
+### Discharge Summary Dataset
+
+Get a count of the missing values for each extract text column. 
+```{r descriptivedischarge, include=TRUE, collapse = TRUE,warning=FALSE}
+na_count <- sapply(pt_record_final, function(y) sum(length(which(is.na(y)))))
+na_count <- data.frame(na_count) %>% arrange(na_count)
+na_count
+```
+
+### The Annotation Dataset
+The experts were assigned a textual task in which they were required to categorise each disease (see list of diseases above) as Present, Absent, Questionable, or Unmentioned based on the information in the discharge summaries. The experts were also given an intuitive task in which they were instructed to classify each condition as Present, Absent, or Questionable by using their intuition and judgement. Textual task annotations are referred to as textual judgments, while intuitive task annotations are referred to as intuitive judgments [@Uzuner2009-na].
+
+* Judgment: Present(Y), Absent(N), Questionable(Q), or Unmentioned(U)
+
+```{r descriptivestatistics, include=TRUE, collapse = TRUE, warning=FALSE}
+# unique values of the disease name in the annotation training dataset.
+unique(annotations_training$diseaseName)
+# count of annotations for "Obesity" disease
+nrow(annotations_training[annotations_training$diseaseName == "Obesity",])
+# tabulate the source of the annotations for "obesity" disease.
+table(annotations_training[annotations_training$diseaseName == "Obesity",]$Source)
+# count # of annotations for "Obesity" disease
+length(unique(annotations_training[annotations_training$diseaseName == "Obesity",]$doc_id))
+# unique judgment
+unique(annotations_training$judgment)
+```
+## Your Analyses
+
+You may start from here to conduct your analyses. 
+
+* Please note that you may need to select or combine the columns of interest from the `pt_record_final` dataframe. For instance, there are multiple columns related to diagnosis. You may need to combine or paste them to get all the diagnosis fields. 
+* You may need to filter or reshape the `annotations_training` dataset to suit your needs. 
+* For classification models, you may need to use training and test data separately for different tasks. 
+* For classification models, you may need to merge the discharge summary dataset `pt_record_final` with the annotation dataset `annotations_training`. 
+
+```{r youranalysis, include=TRUE, collapse = TRUE, warning=FALSE}
+# discharge summary dataset
+nrow(pt_record_final)
+nrow(pt_record_final[pt_record_final$Dataset == "Training",])
+nrow(pt_record_final[pt_record_final$Dataset == "Test",])
+
+# annotation dataset
+nrow(annotations_training)
+
+# you can start from here, to be continued...
+
+```
+
+
+## Appendix: Feature Manual Extraction from the Text {#appendixfeature}
+
+This is an iterative process to find potential features from the text. 
+You may need to use regular expression or other string processing techniques from the `stringr` package. 
+First, separate the text by line, and place each line in its own row.
+Then, we find the most frequent contexts and their frequencies; and decide whether we should extract it as a pattern. 
+The details of the process can be found in the Appendix. 
+
+The code below gives you the finalized list of features. You are free to explore or change them to your own needs. 
+```{r findpotentialfeatures, eval=FALSE, include=TRUE, collapse = TRUE, warning=FALSE}
+# this is an iterative process to find the features. 
+lineGroupBy = pt_record_raw %>%
+  separate_rows(text,sep = "\n")%>%
+  group_by(text)%>%summarize(count=n()) %>%
+  arrange(desc(count))
+
+# edit the pattern to add new features, use "|" to separate the potential features.
+pattern = "PRIMARY DIAGNOSIS:|DIAGNOSES:|ADMISSION DIAGNOSES:|DISCHARGE DIAGNOSES: |BRIEF HISTORY:|ADMISSION DIAGNOSIS:|ADMITTING DIAGNOSIS: |DISCHARGE DIAGNOSIS: |\\*\\*\\*\\*\\*\\* DISCHARGE ORDERS \\*\\*\\*\\*\\*\\*|ADDITIONAL COMMENTS:|\\*\\*\\*\\*\\*\\* FINAL DISCHARGE ORDERS \\*\\*\\*\\*\\*\\*|OTHER TREATMENTS\\/PROCEDURES \\( NOT IN O.R. \\)|DISCHARGE CONDITION:|DISCHARGE INSTRUCTIONS:|PHYSICAL EXAMINATION ON ADMISSION:|PAST SURGICAL HISTORY:|PRINCIPAL DIAGNOSIS:|MEDICATIONS ON ADMISSION:|CODE STATUS:|HOSPITAL COURSE BY SYSTEM:|HOSPITAL COURSE:|Attending:|FAMILY HISTORY:|HOSPITAL COURSE BY PROBLEM:|MEDICATIONS ON DISCHARGE:|MEDICATIONS:|Discharge Date:|Dictated By:|ATTENDING:|SERVICE:|ADMISSION INFORMATION AND CHIEF COMPLAINT:|CHIEF COMPLAINT:|HISTORY OF PRESENT ILLNESS:|ADMISSION LABS:|ADMISSION LABORATORY VALUES:|PAST MEDICAL HISTORY:|MEDICATIONS AT REHAB:|MEDICATIONS AT TIME OF ADMISSION:|PHYSICAL EXAMINATION:|ALLERGIES:|SOCIAL HISTORY:|FAMILY HISTORY:|HOSPITAL COURSE BY SYSTEM/ PROBLEM:|DISCHARGE STATUS:|CONTACTS AT THE HOSPITAL:|DISCHARGE LABORATORY VALUES:|DISCHARGE MEDICATIONS:|DISPOSITION:|ALLERGIES:|Service:|OTHER TREATMENTS/PROCEDURES ( NOT IN O.R. )|DISPOSITION:|BRIEF RESUME OF HOSPITAL COURSE:|ADMIT DIAGNOSIS:|TO DO/PLAN:|FOLLOW UP APPOINTMENT\\( S \\):|OPERATIONS AND PROCEDURES:|DISCHARGE MEDICATIONS:|Discharge Date:|Dictated By:|ATTENDING:|SERVICE:|ADMISSION INFORMATION AND CHIEF COMPLAINT:"
+
+# create the temporary dataframe to store the potential features using the pattern
+test = pt_record_raw %>% separate_rows(text, sep = "\n") %>% 
+  filter(text != "") %>% 
+  mutate(text_id = row_number()) %>%
+  mutate(item_id = ifelse(str_starts(text, pattern), 1, 0)) %>%
+  mutate(title = ifelse(item_id == 1,str_extract(text, pattern), NA)) %>%
+  fill(title) %>%
+  group_by(doc_id) %>%
+  mutate(text_id_by_doc = row_number()) %>%
+  mutate(title = ifelse(text_id_by_doc == 1, "OneLine", title))
+
+# scanning the remaining text to find any missing feature and then edit the pattern to add new features.
+lineGroupBy = test %>% group_by(text) %>%
+  summarize(count = n(), id = sum(item_id)) %>%
+  filter(id == 0) %>%
+  arrange(desc(count))
+
+tempfinal2 = test%>%select(doc_id, Dataset,title,text,text_id)%>%
+  arrange(text_id)%>%
+  select(-text_id)%>%
+  pivot_wider(names_from = title,values_from = text,values_fn = list)
+
+tempfinal3 = test %>% arrange(text_id)%>%group_by(doc_id, Dataset,title) %>%
+  summarize(longtext = paste0(text,collapse="")) %>%
+  pivot_wider(names_from = title,values_from = longtext)
+```
+
+Save the dataframe as csv files. 
+
+```{r savecsv, eval=FALSE, include=TRUE, collapse = TRUE, warning=FALSE}
+# save the dataframe as csv files
+pt_record_final %>% write.csv("obesity_pt_record_final.csv")
+annotations_training %>% write.csv("obesity_annotations_training.csv")
+```

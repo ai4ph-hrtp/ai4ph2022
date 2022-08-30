@@ -1,0 +1,9 @@
+# Reference
+
+The material for the tutorial session was developed using the following reference: 
+
+1.  Silge J, Robinson D. *Text Mining with R: A Tidy Approach*. 1st ed. O'Reilly Media 2017. <https://www.tidytextmining.com/index.html>
+
+2.  Hvitfeldt E, Silge J. *Supervised Machine Learning for Text Analysis in R*. Chapman and Hall/CRC 2022. <https://smltar.com/>.
+
+3.  Kuhn M, Silge J. *Tidy Modeling with R*. O'Reilly Media 2022. <https://www.tmwr.org/>.

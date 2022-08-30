@@ -1,0 +1,220 @@
+# Text Analytics with R: Topic Modelling {#tutorial2}
+
+This tutorial introduces text analyses in R using a variety of R packages and tidy tools.
+
+## Initial R Setup
+
+### Load the R Packages
+
+Load and import the necessary R packages:
+
+```{r setup1, include=TRUE, collapse = TRUE,warning = FALSE, message = FALSE}
+library(readr)
+# a collection of package for data wrangling.
+library(tidyverse)
+# package for text processing
+library(tidytext)
+# collection of packages for modeling and L 
+library(tidymodels)
+library(scales)
+# R package for managing and analyzing textual data
+library(quanteda)
+# An R package with word stemming algorithm
+# collapsing words to a common root to aid comparison of vocabular. 
+library(SnowballC)
+# library for topic models (LDA)
+library(topicmodels)
+# text recipe
+library(textrecipes)
+# dealing with imbalance data using `step_downsample or upsample`.
+library(themis)
+# https://github.com/tidymodels/discrim
+library(discrim)
+# framework for constructing variable importance plots from ML models
+library(vip)
+```
+
+### Load the Twitter Data for Topic Modelling
+
+We start from data loading and text pre-processing.
+```{r tmdata,include=TRUE,collapse = TRUE, warning=FALSE}
+urlfile_tm <-"https://raw.githubusercontent.com/tianyuan09/ai4ph2022/main/sampleTwitterDataForTopicModelling.csv"
+tweetsTMDF <-read.csv(url(urlfile_tm), encoding = "UTF-8")
+
+### UDF to remove the URLs from the tweets
+removeURLs <- function(tweet) {
+  return(gsub("http\\S+", "", tweet))
+}
+### UDF to remove RT from the tweets
+removeUsernamesWithRT <- function(tweet) {
+  return(gsub("^RT @[a-z,A-Z]*[0-9]*[a-z,A-Z]*[0-9]*: ","", tweet))
+}
+### UDF to remove the usernames or callouts from the tweets
+removeUsernames <- function(tweet) {
+  return(gsub("@[a-z,A-Z]*[0-9]*[a-z,A-Z]*[0-9]*", "", tweet))
+}
+### remove the hashtag # from the tweets
+removeHashtagSignOnly <- function(tweet) {
+  return(gsub("#", "", tweet))
+}
+
+# pre-processing using regex
+tweetsTMDF$processed_tweet <- apply(tweetsTMDF['tweet'], 2, 
+                                    removeURLs) 
+tweetsTMDF$processed_tweet <- apply(tweetsTMDF['processed_tweet'],2, 
+                                    removeUsernamesWithRT) 
+tweetsTMDF$processed_tweet <- apply(tweetsTMDF['processed_tweet'],2, 
+                                    removeUsernames)
+tweetsTMDF$processed_tweet <- apply(tweetsTMDF['processed_tweet'],2, 
+                                    removeHashtagSignOnly)
+
+# pre-processing tokenization, stopword, stemming
+text_tmdf <- tweetsTMDF %>% select(X,processed_tweet) %>%
+    unnest_tokens(word, processed_tweet)%>%
+  anti_join(stop_words[stop_words$lexicon == "snowball",], by = "word")%>%
+  mutate(stem = wordStem(word))
+
+
+#  we can tokenize text into consecutive sequences of words, called n-grams
+text_bigrams<-tweetsTMDF %>% select(X,processed_tweet) %>%
+  unnest_tokens(bigram, processed_tweet, token="ngrams", n=2)%>%
+  filter(bigram != "covid 19")
+```
+
+
+## Topic Modelling
+
+Topic modelling is an unsupervised machine learning approach that can scan a collection of documents, find word and phrase patterns within them, and automatically cluster word groupings and related expressions into topics. 
+
+**What is topic modelling?**
+
+> Topic modeling, including probabilistic latent semantic indexing and latent Dirichlet allocation, is a form of dimension reduction that uses a probabilistic model to find the co-occurrence patterns of terms that correspond to semantic topics in a collection of documents [@Crain2012-tg].
+
+Topic models require a lot of subjective interpretation when it comes:
+
+-   the choice of *K* topics. There is no clear criteria for determining the number of topics K. When it comes to interpretability or coherence of topics, top words might help. You should always inspect topics manually, think carefully about theoretical concepts that you can measure with topics.
+-   the identification and exclusion of background topics
+-   the interpretation and labeling of topics identified as relevant
+-   the "assignment" of topics to documents
+
+### Latent Dirichlet allocation (LDA)
+
+Latent Dirichlet allocation (LDA) is the one of the most common algorithms for topic modelling, and it is guided by two principles:
+
+1.  Each document has a mixture of topics.
+2.  Each topic is a mixture of words.
+
+LDA estimate both of these at the same time and find the mixture of words that associated with each topic.
+
+Create a `document-term-matrix` using the `cast_dfm()`. More information about tidy text format can be found at [here](https://www.tidytextmining.com/dtm.html) [@Silge2017-yl]
+
+
+```{r tmldaa,include=TRUE,collapse = TRUE, warning=FALSE}
+# create a document term (or feature) matrix
+word_counts_dtm = text_tmdf %>% count(X, word) %>%
+  cast_dfm(X, word, n)
+word_counts_dtm
+
+# check the top features in our dataset
+topfeatures(word_counts_dtm, n = 20, scheme = "docfreq")
+
+# bigram matrix
+bigrams_counts_dtm = text_bigrams %>% count(X,bigram)%>%
+  cast_dfm(X, bigram, n)
+bigrams_counts_dtm
+
+topfeatures(bigrams_counts_dtm, n = 20, scheme = "docfreq")
+```
+
+We can use the `LDA()` function from the `topicmodels` to create a two-topic model. In reality, you may need to try different values of *k*.
+
+
+```{r tmldab,include=TRUE,collapse = TRUE, warning=FALSE}
+tweet_lda2 <- LDA(word_counts_dtm, k = 2, control = list(seed = 1234))
+tweet_lda2
+#The terms that are particularly strongly linked to each of the topics
+as.data.frame(terms(tweet_lda2, 15))
+```
+
+We can use the `LDA()` function from the `topicmodels` to create a four-topic model using the bi-gram.
+
+```{r tmldabb,include=TRUE,collapse = TRUE, warning=FALSE}
+tweet_lda4 <-LDA(bigrams_counts_dtm, k = 4, control = list(seed = 1234))
+tweet_lda4
+#The terms that are particularly strongly linked to each of the topics
+as.data.frame(terms(tweet_lda4, 15))
+```
+
+#### Word-topic probabilities
+
+The tidytext package has method for extracting the per-topic-per-word probabilities, the `beta`, from the two-topic model.
+
+```{r tmldac,include=TRUE,collapse = TRUE, warning=FALSE}
+lda_topics <-tidy(tweet_lda2,matrix="beta")
+lda_topics
+
+lda_topics4 <-tidy(tweet_lda4,matrix="beta")
+lda_topics4
+```
+
+Find the 15 terms that are most common within each topic.`dplyr`'s [`slice_max()`](https://dplyr.tidyverse.org/reference/slice.html)
+
+```{r tmldad,include=TRUE,collapse = TRUE, warning=FALSE}
+ap_top_terms <- lda_topics %>%
+  group_by(topic) %>%
+  slice_max(beta, n = 15) %>% 
+  ungroup() %>%
+  arrange(topic, -beta)
+
+ap_top_terms %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  ggplot(aes(beta, term, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  scale_y_reordered()+
+  labs(title = "The terms that are most common within each topic")
+```
+
+Find the 15 terms that are most common within each topic.`dplyr`'s [`slice_max()`](https://dplyr.tidyverse.org/reference/slice.html)
+
+```{r tmldad4,include=TRUE,collapse = TRUE, warning=FALSE}
+ap_top_terms4 <- lda_topics4 %>%
+  group_by(topic) %>%
+  slice_max(beta, n = 15) %>% 
+  ungroup() %>%
+  arrange(topic, -beta)
+
+ap_top_terms4 %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  ggplot(aes(beta, term, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  scale_y_reordered()+
+  labs(title = "The terms that are most common within each topic")
+```
+
+Find the terms that generate the greatest difference in beta between two topics.
+```{r tmldae,include=TRUE,collapse = TRUE, warning=FALSE}
+beta_wide <- lda_topics %>%
+  mutate(topic = paste0("topic", topic)) %>%
+  pivot_wider(names_from = topic, values_from = beta) %>% 
+  filter(topic1 > .001 | topic2 > .001) %>%
+  mutate(log_ratio = log2(topic2 / topic1))
+
+beta_wide %>% arrange(desc(abs(log_ratio)))%>% head(20) %>% 
+    arrange(desc(log_ratio)) %>%
+    ggplot(aes(log_ratio, term)) +
+    geom_col(show.legend = FALSE)+
+    labs(title = "Terms with the great difference in beta between two topics")
+```
+
+#### Document-topic probabilities
+
+LDA models each document as a mix of topics and words. With `matrix = "gamma"`, we can investigate `per-document-per-topic` probabilities.
+
+```{r tmldaf,include=TRUE,collapse = TRUE, warning=FALSE}
+lda_documents <- tidy(tweet_lda2, matrix = "gamma")
+lda_documents
+```
+
+Each of these values represents an estimated percentage of the document's words that are from each topic. Many of these tweets were drawn from more than 1 topic. 

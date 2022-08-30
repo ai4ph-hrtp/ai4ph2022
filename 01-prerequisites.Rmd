@@ -1,0 +1,81 @@
+# Prerequisite
+
+Welcome to the Artificial Intelligence for Public Health (AI4PH) 2022.
+
+This online tutorial will accompany two sessions:
+
+1)  Tutorial on text analytics with R
+2)  Data Challenge using the N2C2 NLP Research Datasets
+
+## Before the sessions
+
+1.  Install [R](https://mirror.csclub.uwaterloo.ca/CRAN/) and [RStudio](https://www.rstudio.com/products/rstudio/download/)
+2.  Create a new R Project in RStudio(via "File -> New Projects...")
+3.  Install required R packages
+4.  Access the Twitter Data for the tutorial session [Github Link](https://github.com/tianyuan09/ai4ph2022)
+
+### Install Required R Packages
+
+Run the code below to install and load the required packages.
+
+```{r include=TRUE, eval= F, collapse = TRUE, warning=FALSE}
+# specify the packages to install or load in a vector
+packages <- c("tidytext","tidyverse","tidymodels","scales",
+              "quanteda","SnowballC","topicmodels","textrecipes",
+              "vip","stopwords","themis","discrim","naivebayes",
+              "LiblineaR","tidyr","XML","xml2","readr")
+
+# Loop through each package
+for (package in packages) {
+    # if not installed, then install. 
+    if (!require(package, character.only = TRUE)) {
+      install.packages(package, 
+                       dependencies = TRUE, 
+                       repos='http://cran.us.r-project.org')
+     }
+}
+for (package in packages){
+    # load the required packages
+    library(package, character.only = TRUE)
+}
+
+# print the list of libraries that are loaded
+(.packages())
+```
+
+### Twitter Dataset for the Tutorial
+
+The dataset can be found in the [Github Repo](https://github.com/tianyuan09/ai4ph2022)
+
+-   Click the URLs to obtain the twitter data sets in csv files from Github.
+
+    -   Dataset for Classification: [`sampleTwitterDataForClassification.csv`](https://raw.githubusercontent.com/tianyuan09/ai4ph2022/main/sampleTwitterDataForClassification.csv)
+    -   Dataset for Topic Modelling: [`sampleTwitterDataForTopicModelling.csv`](https://raw.githubusercontent.com/tianyuan09/ai4ph2022/main/sampleTwitterDataForTopicModelling.csv)
+
+-   If you want to save the data on your local machine (optional), right-click then `Save as`
+
+**We will use the URLs to access the Twitter data directly.**
+
+#### Twitter Dataset for Classification
+
+The dataset is a sample of annotated twitter data with the goal to infer recent plausible COVID-19 cases.
+
+The data structure:
+
+-   Each column is a variable
+-   Each row is an observation (e.g. tweet, annotation)
+
+Variables included:
+
+-   `X`: tweet_id
+
+-   `tweet`: the tweet contents
+
+-   `annotation`:
+
+    -   `1`: Yes (plausible COVID-19 cases)
+    -   `0`: No or Unsure
+
+#### Twitter Dataset for Topic Modelling
+
+The dataset is a collection of tweets related to COVID-19, it has only one column `tweet`.
