@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 Data Challenge Prep | AI4PH: Text Analyses with R Tutorial and Data Challenge</title>
+  <meta name="description" content="Welcome to AI4PH Summer Institute 2022." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 Data Challenge Prep | AI4PH: Text Analyses with R Tutorial and Data Challenge" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Welcome to AI4PH Summer Institute 2022." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 Data Challenge Prep | AI4PH: Text Analyses with R Tutorial and Data Challenge" />
+  
+  <meta name="twitter:description" content="Welcome to AI4PH Summer Institute 2022." />
+  
+
+<meta name="author" content="Yuan Tian" />
+
+
+<meta name="date" content="2022-07-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="tutorial2.html"/>
+<link rel="next" href="relevant-resources.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://bookdown.org/tianyuan09/ai4ph2022/">AI4PH2022</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="prerequisite.html"><a href="prerequisite.html"><i class="fa fa-check"></i><b>1</b> Prerequisite</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="prerequisite.html"><a href="prerequisite.html#before-the-sessions"><i class="fa fa-check"></i><b>1.1</b> Before the sessions</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="prerequisite.html"><a href="prerequisite.html#install-required-r-packages"><i class="fa fa-check"></i><b>1.1.1</b> Install Required R Packages</a></li>
+<li class="chapter" data-level="1.1.2" data-path="prerequisite.html"><a href="prerequisite.html#twitter-dataset-for-the-tutorial"><i class="fa fa-check"></i><b>1.1.2</b> Twitter Dataset for the Tutorial</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="tutorial.html"><a href="tutorial.html"><i class="fa fa-check"></i><b>2</b> Text Analytics with R: Classification</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tutorial.html"><a href="tutorial.html#initial-r-setup"><i class="fa fa-check"></i><b>2.1</b> Initial R Setup</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="tutorial.html"><a href="tutorial.html#load-the-r-packages"><i class="fa fa-check"></i><b>2.1.1</b> Load the R Packages</a></li>
+<li class="chapter" data-level="2.1.2" data-path="tutorial.html"><a href="tutorial.html#load-the-twitter-data-for-classification"><i class="fa fa-check"></i><b>2.1.2</b> Load the Twitter Data for Classification</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="tutorial.html"><a href="tutorial.html#data-pre-processing"><i class="fa fa-check"></i><b>2.2</b> Data Pre-processing</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="tutorial.html"><a href="tutorial.html#regular-expressions"><i class="fa fa-check"></i><b>2.2.1</b> Regular Expressions</a></li>
+<li class="chapter" data-level="2.2.2" data-path="tutorial.html"><a href="tutorial.html#tokenization"><i class="fa fa-check"></i><b>2.2.2</b> Tokenization</a></li>
+<li class="chapter" data-level="2.2.3" data-path="tutorial.html"><a href="tutorial.html#stop-words"><i class="fa fa-check"></i><b>2.2.3</b> Stop Words</a></li>
+<li class="chapter" data-level="2.2.4" data-path="tutorial.html"><a href="tutorial.html#stemming"><i class="fa fa-check"></i><b>2.2.4</b> Stemming</a></li>
+<li class="chapter" data-level="2.2.5" data-path="tutorial.html"><a href="tutorial.html#exporatory-data-analysis"><i class="fa fa-check"></i><b>2.2.5</b> Exporatory Data Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="tutorial.html"><a href="tutorial.html#classification-models"><i class="fa fa-check"></i><b>2.3</b> Classification Models</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="tutorial.html"><a href="tutorial.html#split-the-training-and-test-set"><i class="fa fa-check"></i><b>2.3.1</b> Split the Training and Test Set</a></li>
+<li class="chapter" data-level="2.3.2" data-path="tutorial.html"><a href="tutorial.html#pre-processing-with-the-recipe"><i class="fa fa-check"></i><b>2.3.2</b> Pre-processing with the <code>recipe()</code></a></li>
+<li class="chapter" data-level="2.3.3" data-path="tutorial.html"><a href="tutorial.html#choose-a-classification-model"><i class="fa fa-check"></i><b>2.3.3</b> Choose a Classification Model</a></li>
+<li class="chapter" data-level="2.3.4" data-path="tutorial.html"><a href="tutorial.html#the-workflow-for-bundling-recipe-and-models"><i class="fa fa-check"></i><b>2.3.4</b> The <code>workflow()</code> for bundling <code>recipe()</code> and models</a></li>
+<li class="chapter" data-level="2.3.5" data-path="tutorial.html"><a href="tutorial.html#model-evaluation"><i class="fa fa-check"></i><b>2.3.5</b> Model Evaluation</a></li>
+<li class="chapter" data-level="2.3.6" data-path="tutorial.html"><a href="tutorial.html#evaluate-on-the-testing-set-optional"><i class="fa fa-check"></i><b>2.3.6</b> Evaluate on the Testing Set (Optional)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tutorial2.html"><a href="tutorial2.html"><i class="fa fa-check"></i><b>3</b> Text Analytics with R: Topic Modelling</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tutorial2.html"><a href="tutorial2.html#initial-r-setup-1"><i class="fa fa-check"></i><b>3.1</b> Initial R Setup</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="tutorial2.html"><a href="tutorial2.html#load-the-r-packages-1"><i class="fa fa-check"></i><b>3.1.1</b> Load the R Packages</a></li>
+<li class="chapter" data-level="3.1.2" data-path="tutorial2.html"><a href="tutorial2.html#load-the-twitter-data-for-topic-modelling"><i class="fa fa-check"></i><b>3.1.2</b> Load the Twitter Data for Topic Modelling</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="tutorial2.html"><a href="tutorial2.html#topic-modelling"><i class="fa fa-check"></i><b>3.2</b> Topic Modelling</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="tutorial2.html"><a href="tutorial2.html#latent-dirichlet-allocation-lda"><i class="fa fa-check"></i><b>3.2.1</b> Latent Dirichlet allocation (LDA)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html"><i class="fa fa-check"></i><b>4</b> Data Challenge Prep</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#n2c2-nlp-research-datasets"><i class="fa fa-check"></i><b>4.1</b> N2C2 NLP Research Datasets</a></li>
+<li class="chapter" data-level="4.2" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#initial-r-setup-2"><i class="fa fa-check"></i><b>4.2</b> Initial R Setup</a></li>
+<li class="chapter" data-level="4.3" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#reading-xml-files-in-r"><i class="fa fa-check"></i><b>4.3</b> Reading XML files in R</a></li>
+<li class="chapter" data-level="4.4" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#preprocessing-the-text-column-in-the-pt_record_raw-dataframe"><i class="fa fa-check"></i><b>4.4</b> Preprocessing the <code>text</code> column in the <code>pt_record_raw</code> dataframe</a></li>
+<li class="chapter" data-level="4.5" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#descriptive-statistics"><i class="fa fa-check"></i><b>4.5</b> Descriptive Statistics</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#discharge-summary-dataset"><i class="fa fa-check"></i><b>4.5.1</b> Discharge Summary Dataset</a></li>
+<li class="chapter" data-level="4.5.2" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#the-annotation-dataset"><i class="fa fa-check"></i><b>4.5.2</b> The Annotation Dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#your-analyses"><i class="fa fa-check"></i><b>4.6</b> Your Analyses</a></li>
+<li class="chapter" data-level="4.7" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#appendixfeature"><i class="fa fa-check"></i><b>4.7</b> Appendix: Feature Manual Extraction from the Text</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="relevant-resources.html"><a href="relevant-resources.html"><i class="fa fa-check"></i><b>5</b> Relevant Resources</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">AI4PH: Text Analyses with R Tutorial and Data Challenge</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-challenge-prep" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">4</span> Data Challenge Prep<a href="data-challenge-prep.html#data-challenge-prep" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="n2c2-nlp-research-datasets" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> N2C2 NLP Research Datasets<a href="data-challenge-prep.html#n2c2-nlp-research-datasets" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The data on obesity and comorbidities came from 1237 discharge summaries in the Partners HealthCare Research Patient Data Repository <span class="citation">(<a href="#ref-Uzuner2009-na" role="doc-biblioref">Uzuner 2009</a>)</span>. These data were derived from discharge summaries of patients who were overweight or diabetic and had been hospitalised for obesity or diabetes after December 1, 2004.</p>
+<p>The N2C2 NLP Research Datasets are in XML format.</p>
+<ul>
+<li><code>obesity_patient_records_test.xml</code></li>
+<li><code>obesity_patient_records_training.xml</code></li>
+<li><code>obesity_patient_records_training2.xml</code></li>
+<li><code>obesity_standoff_annotations_training.xml</code></li>
+</ul>
+</div>
+<div id="initial-r-setup-2" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Initial R Setup<a href="data-challenge-prep.html#initial-r-setup-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Install and import the necessary packages:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="data-challenge-prep.html#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-2"><a href="data-challenge-prep.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># required packages: XML - for reading XML</span></span>
+<span id="cb1-3"><a href="data-challenge-prep.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(XML) <span class="co"># required for reading xml data.</span></span>
+<span id="cb1-4"><a href="data-challenge-prep.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb1-5"><a href="data-challenge-prep.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-6"><a href="data-challenge-prep.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --</span></span>
+<span id="cb1-7"><a href="data-challenge-prep.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">## v ggplot2 3.3.6     v purrr   0.3.4</span></span>
+<span id="cb1-8"><a href="data-challenge-prep.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">## v tibble  3.1.7     v dplyr   1.0.9</span></span>
+<span id="cb1-9"><a href="data-challenge-prep.html#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">## v tidyr   1.2.0     v stringr 1.4.0</span></span>
+<span id="cb1-10"><a href="data-challenge-prep.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## v readr   2.1.2     v forcats 0.5.1</span></span>
+<span id="cb1-11"><a href="data-challenge-prep.html#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="do">## -- Conflicts ------------------------------------------ tidyverse_conflicts() --</span></span>
+<span id="cb1-12"><a href="data-challenge-prep.html#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="do">## x dplyr::filter() masks stats::filter()</span></span>
+<span id="cb1-13"><a href="data-challenge-prep.html#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## x dplyr::lag()    masks stats::lag()</span></span></code></pre></div>
+</div>
+<div id="reading-xml-files-in-r" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Reading XML files in R<a href="data-challenge-prep.html#reading-xml-files-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Extensible Markup Language (XML) is a data format. XML files have an extension of <code>.xml</code>. XML file often has a tree stucture. It has a root element, and the root has one or more child nodes.
+In R, we can use the function <code>xmlParse()</code> (in <a href="https://cran.r-project.org/web/packages/XML/index.html">XML</a> package) to read XML files.</p>
+<p>We created two user-defined functions for reading three testing and training XML files.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="data-challenge-prep.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract both attributes and text from XML data using xpath</span></span>
+<span id="cb2-2"><a href="data-challenge-prep.html#cb2-2" aria-hidden="true" tabindex="-1"></a>extractXMLTextwithAttributesPTRecord <span class="ot">&lt;-</span> <span class="cf">function</span>(xmlFile, xmlTag) {</span>
+<span id="cb2-3"><a href="data-challenge-prep.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># read xml file</span></span>
+<span id="cb2-4"><a href="data-challenge-prep.html#cb2-4" aria-hidden="true" tabindex="-1"></a>  xml <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(xmlFile)</span>
+<span id="cb2-5"><a href="data-challenge-prep.html#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># find all nodes that match doc and extract the attribute value</span></span>
+<span id="cb2-6"><a href="data-challenge-prep.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  doc <span class="ot">&lt;-</span> <span class="fu">xml_find_all</span>(xml, <span class="at">xpath =</span> xmlTag)</span>
+<span id="cb2-7"><a href="data-challenge-prep.html#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># retrieve the value of a single attribute, in our case the &quot;id&quot; attribute</span></span>
+<span id="cb2-8"><a href="data-challenge-prep.html#cb2-8" aria-hidden="true" tabindex="-1"></a>  doc_id <span class="ot">&lt;-</span> <span class="fu">xml_attr</span>(doc, <span class="st">&quot;id&quot;</span>)</span>
+<span id="cb2-9"><a href="data-challenge-prep.html#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extra the text for the matched XML node</span></span>
+<span id="cb2-10"><a href="data-challenge-prep.html#cb2-10" aria-hidden="true" tabindex="-1"></a>  text <span class="ot">&lt;-</span> <span class="fu">xml_text</span>(<span class="fu">xml_find_all</span>(xml,<span class="at">xpath=</span><span class="fu">paste0</span>(xmlTag,<span class="st">&quot;/text&quot;</span>)))</span>
+<span id="cb2-11"><a href="data-challenge-prep.html#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#create a tibble then covert to data frame</span></span>
+<span id="cb2-12"><a href="data-challenge-prep.html#cb2-12" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(doc_id, text) <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>()</span>
+<span id="cb2-13"><a href="data-challenge-prep.html#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># return extracted attributes as data frame</span></span>
+<span id="cb2-14"><a href="data-challenge-prep.html#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)</span>
+<span id="cb2-15"><a href="data-challenge-prep.html#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-16"><a href="data-challenge-prep.html#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="data-challenge-prep.html#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># function to read xml with annotations and extract the text and attributes.</span></span>
+<span id="cb2-18"><a href="data-challenge-prep.html#cb2-18" aria-hidden="true" tabindex="-1"></a>extractAnnotationsXML <span class="ot">&lt;-</span> <span class="cf">function</span>(xmlFile) {</span>
+<span id="cb2-19"><a href="data-challenge-prep.html#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># read xml file</span></span>
+<span id="cb2-20"><a href="data-challenge-prep.html#cb2-20" aria-hidden="true" tabindex="-1"></a>  xml <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(xmlFile)</span>
+<span id="cb2-21"><a href="data-challenge-prep.html#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">#find all edge nodes</span></span>
+<span id="cb2-22"><a href="data-challenge-prep.html#cb2-22" aria-hidden="true" tabindex="-1"></a>  edge.nodes <span class="ot">&lt;-</span> <span class="fu">xml_find_all</span>(xml, <span class="st">&quot;.//doc&quot;</span>)</span>
+<span id="cb2-23"><a href="data-challenge-prep.html#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">#build the data.frame</span></span>
+<span id="cb2-24"><a href="data-challenge-prep.html#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">#build the data.frame</span></span>
+<span id="cb2-25"><a href="data-challenge-prep.html#cb2-25" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Source =</span> <span class="fu">xml_find_first</span>( edge.nodes, <span class="st">&quot;.//ancestor::diseases&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">xml_attr</span>(<span class="st">&quot;source&quot;</span>),</span>
+<span id="cb2-26"><a href="data-challenge-prep.html#cb2-26" aria-hidden="true" tabindex="-1"></a>            <span class="at">diseaseName =</span> <span class="fu">xml_find_first</span>( edge.nodes, <span class="st">&quot;.//ancestor::disease&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">xml_attr</span>(<span class="st">&quot;name&quot;</span>),</span>
+<span id="cb2-27"><a href="data-challenge-prep.html#cb2-27" aria-hidden="true" tabindex="-1"></a>            <span class="at">doc_id =</span> edge.nodes <span class="sc">%&gt;%</span> <span class="fu">xml_attr</span>(<span class="st">&quot;id&quot;</span>),</span>
+<span id="cb2-28"><a href="data-challenge-prep.html#cb2-28" aria-hidden="true" tabindex="-1"></a>            <span class="at">judgment =</span> edge.nodes <span class="sc">%&gt;%</span> <span class="fu">xml_attr</span>(<span class="st">&quot;judgment&quot;</span>))</span>
+<span id="cb2-29"><a href="data-challenge-prep.html#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)</span>
+<span id="cb2-30"><a href="data-challenge-prep.html#cb2-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Reading the XML files using the user-defined functions.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="data-challenge-prep.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read both the testing and training dataset.</span></span>
+<span id="cb3-2"><a href="data-challenge-prep.html#cb3-2" aria-hidden="true" tabindex="-1"></a>pt_record_test <span class="ot">=</span> <span class="fu">extractXMLTextwithAttributesPTRecord</span>(<span class="st">&quot;../DataChallengeDataset/obesity_patient_records_test.xml&quot;</span>,<span class="st">&quot;//doc&quot;</span>)</span>
+<span id="cb3-3"><a href="data-challenge-prep.html#cb3-3" aria-hidden="true" tabindex="-1"></a>pt_record_training1 <span class="ot">=</span> <span class="fu">extractXMLTextwithAttributesPTRecord</span>(<span class="st">&quot;../DataChallengeDataset/obesity_patient_records_training.xml&quot;</span>,<span class="st">&quot;//doc&quot;</span>)</span>
+<span id="cb3-4"><a href="data-challenge-prep.html#cb3-4" aria-hidden="true" tabindex="-1"></a>pt_record_training2 <span class="ot">=</span> <span class="fu">extractXMLTextwithAttributesPTRecord</span>(<span class="st">&quot;../DataChallengeDataset/obesity_patient_records_training2.xml&quot;</span>,<span class="st">&quot;//doc&quot;</span>)</span>
+<span id="cb3-5"><a href="data-challenge-prep.html#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># merge two training datasets</span></span>
+<span id="cb3-6"><a href="data-challenge-prep.html#cb3-6" aria-hidden="true" tabindex="-1"></a>pt_record_training <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pt_record_training1, pt_record_training2)</span>
+<span id="cb3-7"><a href="data-challenge-prep.html#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(pt_record_training1, pt_record_training2) <span class="co"># remove the temporary dataframes</span></span>
+<span id="cb3-8"><a href="data-challenge-prep.html#cb3-8" aria-hidden="true" tabindex="-1"></a>pt_record_test[<span class="st">&#39;Dataset&#39;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Test&quot;</span> <span class="co"># add a column for the test dataset</span></span>
+<span id="cb3-9"><a href="data-challenge-prep.html#cb3-9" aria-hidden="true" tabindex="-1"></a>pt_record_training[<span class="st">&#39;Dataset&#39;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Training&quot;</span> <span class="co"># add a column for the training dataset</span></span>
+<span id="cb3-10"><a href="data-challenge-prep.html#cb3-10" aria-hidden="true" tabindex="-1"></a>pt_record_raw <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pt_record_test, pt_record_training)</span>
+<span id="cb3-11"><a href="data-challenge-prep.html#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="data-challenge-prep.html#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#read the training annotations xml file</span></span>
+<span id="cb3-13"><a href="data-challenge-prep.html#cb3-13" aria-hidden="true" tabindex="-1"></a>annotations_training <span class="ot">=</span> <span class="fu">extractAnnotationsXML</span>(<span class="st">&quot;../DataChallengeDataset/obesity_standoff_annotations_training.xml&quot;</span>)</span></code></pre></div>
+</div>
+<div id="preprocessing-the-text-column-in-the-pt_record_raw-dataframe" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Preprocessing the <code>text</code> column in the <code>pt_record_raw</code> dataframe<a href="data-challenge-prep.html#preprocessing-the-text-column-in-the-pt_record_raw-dataframe" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>text</code> column need to be further processed to extract potential features as columns.</p>
+<p>We often have to look at the text data and use our own judgement to extract relevant features for our research. Here i provided a list of features saved in the <code>pattern</code> variable after reviewing the patient discharge summaries. You can refer to the Appendix <a href="data-challenge-prep.html#appendixfeature">4.7</a> more details.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="data-challenge-prep.html#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="data-challenge-prep.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># edit the pattern to add new features, use &quot;|&quot; to separate the potential features.</span></span>
+<span id="cb4-3"><a href="data-challenge-prep.html#cb4-3" aria-hidden="true" tabindex="-1"></a>pattern <span class="ot">=</span> <span class="st">&quot;PRIMARY DIAGNOSIS:|DIAGNOSES:|ADMISSION DIAGNOSES:|DISCHARGE DIAGNOSES: |BRIEF HISTORY:|ADMISSION DIAGNOSIS:|ADMITTING DIAGNOSIS: |DISCHARGE DIAGNOSIS: |</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">* DISCHARGE ORDERS </span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*|ADDITIONAL COMMENTS:|</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">* FINAL DISCHARGE ORDERS </span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*|OTHER TREATMENTS</span><span class="sc">\\</span><span class="st">/PROCEDURES </span><span class="sc">\\</span><span class="st">( NOT IN O.R. </span><span class="sc">\\</span><span class="st">)|DISCHARGE CONDITION:|DISCHARGE INSTRUCTIONS:|PHYSICAL EXAMINATION ON ADMISSION:|PAST SURGICAL HISTORY:|PRINCIPAL DIAGNOSIS:|MEDICATIONS ON ADMISSION:|CODE STATUS:|HOSPITAL COURSE BY SYSTEM:|HOSPITAL COURSE:|Attending:|FAMILY HISTORY:|HOSPITAL COURSE BY PROBLEM:|MEDICATIONS ON DISCHARGE:|MEDICATIONS:|Discharge Date:|Dictated By:|ATTENDING:|SERVICE:|ADMISSION INFORMATION AND CHIEF COMPLAINT:|CHIEF COMPLAINT:|HISTORY OF PRESENT ILLNESS:|ADMISSION LABS:|ADMISSION LABORATORY VALUES:|PAST MEDICAL HISTORY:|MEDICATIONS AT REHAB:|MEDICATIONS AT TIME OF ADMISSION:|PHYSICAL EXAMINATION:|ALLERGIES:|SOCIAL HISTORY:|FAMILY HISTORY:|HOSPITAL COURSE BY SYSTEM/ PROBLEM:|DISCHARGE STATUS:|CONTACTS AT THE HOSPITAL:|DISCHARGE LABORATORY VALUES:|DISCHARGE MEDICATIONS:|DISPOSITION:|ALLERGIES:|Service:|OTHER TREATMENTS/PROCEDURES ( NOT IN O.R. )|DISPOSITION:|BRIEF RESUME OF HOSPITAL COURSE:|ADMIT DIAGNOSIS:|TO DO/PLAN:|FOLLOW UP APPOINTMENT</span><span class="sc">\\</span><span class="st">( S </span><span class="sc">\\</span><span class="st">):|OPERATIONS AND PROCEDURES:|DISCHARGE MEDICATIONS:|Discharge Date:|Dictated By:|ATTENDING:|SERVICE:|ADMISSION INFORMATION AND CHIEF COMPLAINT:&quot;</span></span>
+<span id="cb4-4"><a href="data-challenge-prep.html#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="data-challenge-prep.html#cb4-5" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> pt_record_raw <span class="sc">%&gt;%</span> </span>
+<span id="cb4-6"><a href="data-challenge-prep.html#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate_rows</span>(text,<span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)<span class="sc">%&gt;%</span> </span>
+<span id="cb4-7"><a href="data-challenge-prep.html#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(text<span class="sc">!=</span><span class="st">&quot;&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-8"><a href="data-challenge-prep.html#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text_id =</span> <span class="fu">row_number</span>())<span class="sc">%&gt;%</span></span>
+<span id="cb4-9"><a href="data-challenge-prep.html#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item_id =</span> <span class="fu">ifelse</span>(<span class="fu">str_starts</span>(text,pattern),<span class="dv">1</span>,<span class="dv">0</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="data-challenge-prep.html#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">title =</span> <span class="fu">ifelse</span>(item_id <span class="sc">==</span> <span class="dv">1</span>,<span class="fu">str_extract</span>(text,pattern),<span class="cn">NA</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb4-11"><a href="data-challenge-prep.html#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(title)<span class="sc">%&gt;%</span></span>
+<span id="cb4-12"><a href="data-challenge-prep.html#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(doc_id)<span class="sc">%&gt;%</span></span>
+<span id="cb4-13"><a href="data-challenge-prep.html#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text_id_by_doc =</span> <span class="fu">row_number</span>())<span class="sc">%&gt;%</span></span>
+<span id="cb4-14"><a href="data-challenge-prep.html#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">title =</span> <span class="fu">ifelse</span>(text_id_by_doc <span class="sc">==</span> <span class="dv">1</span>,<span class="st">&quot;OneLine&quot;</span>,title))</span>
+<span id="cb4-15"><a href="data-challenge-prep.html#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="data-challenge-prep.html#cb4-16" aria-hidden="true" tabindex="-1"></a>pt_record_final <span class="ot">=</span> temp <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(text_id)<span class="sc">%&gt;%</span><span class="fu">group_by</span>(doc_id, Dataset,title) <span class="sc">%&gt;%</span></span>
+<span id="cb4-17"><a href="data-challenge-prep.html#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">longtext =</span> <span class="fu">paste0</span>(text, <span class="at">collapse=</span><span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-18"><a href="data-challenge-prep.html#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> title, <span class="at">values_from =</span> longtext)</span>
+<span id="cb4-19"><a href="data-challenge-prep.html#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">## `summarise()` has grouped output by &#39;doc_id&#39;, &#39;Dataset&#39;. You can override using</span></span>
+<span id="cb4-20"><a href="data-challenge-prep.html#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="do">## the `.groups` argument.</span></span></code></pre></div>
+</div>
+<div id="descriptive-statistics" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Descriptive Statistics<a href="data-challenge-prep.html#descriptive-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="discharge-summary-dataset" class="section level3 hasAnchor" number="4.5.1">
+<h3><span class="header-section-number">4.5.1</span> Discharge Summary Dataset<a href="data-challenge-prep.html#discharge-summary-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Get a count of the missing values for each extract text column.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="data-challenge-prep.html#cb5-1" aria-hidden="true" tabindex="-1"></a>na_count <span class="ot">&lt;-</span> <span class="fu">sapply</span>(pt_record_final, <span class="cf">function</span>(y) <span class="fu">sum</span>(<span class="fu">length</span>(<span class="fu">which</span>(<span class="fu">is.na</span>(y)))))</span>
+<span id="cb5-2"><a href="data-challenge-prep.html#cb5-2" aria-hidden="true" tabindex="-1"></a>na_count <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(na_count) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(na_count)</span>
+<span id="cb5-3"><a href="data-challenge-prep.html#cb5-3" aria-hidden="true" tabindex="-1"></a>na_count</span>
+<span id="cb5-4"><a href="data-challenge-prep.html#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">##                                             na_count</span></span>
+<span id="cb5-5"><a href="data-challenge-prep.html#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## doc_id                                             0</span></span>
+<span id="cb5-6"><a href="data-challenge-prep.html#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Dataset                                            0</span></span>
+<span id="cb5-7"><a href="data-challenge-prep.html#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Discharge Date:                                    0</span></span>
+<span id="cb5-8"><a href="data-challenge-prep.html#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## OneLine                                            0</span></span>
+<span id="cb5-9"><a href="data-challenge-prep.html#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Attending:                                        79</span></span>
+<span id="cb5-10"><a href="data-challenge-prep.html#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">## DISPOSITION:                                     405</span></span>
+<span id="cb5-11"><a href="data-challenge-prep.html#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">## DISCHARGE MEDICATIONS:                           425</span></span>
+<span id="cb5-12"><a href="data-challenge-prep.html#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Dictated By:                                     449</span></span>
+<span id="cb5-13"><a href="data-challenge-prep.html#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="do">## HISTORY OF PRESENT ILLNESS:                      523</span></span>
+<span id="cb5-14"><a href="data-challenge-prep.html#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="do">## HOSPITAL COURSE:                                 600</span></span>
+<span id="cb5-15"><a href="data-challenge-prep.html#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="do">## ALLERGIES:                                       621</span></span>
+<span id="cb5-16"><a href="data-challenge-prep.html#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="do">## PAST MEDICAL HISTORY:                            630</span></span>
+<span id="cb5-17"><a href="data-challenge-prep.html#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="do">## PHYSICAL EXAMINATION:                            708</span></span>
+<span id="cb5-18"><a href="data-challenge-prep.html#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="do">## DISCHARGE CONDITION:                             732</span></span>
+<span id="cb5-19"><a href="data-challenge-prep.html#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="do">## OPERATIONS AND PROCEDURES:                       761</span></span>
+<span id="cb5-20"><a href="data-challenge-prep.html#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="do">## SOCIAL HISTORY:                                  780</span></span>
+<span id="cb5-21"><a href="data-challenge-prep.html#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="do">## ADDITIONAL COMMENTS:                             783</span></span>
+<span id="cb5-22"><a href="data-challenge-prep.html#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="do">## ADMIT DIAGNOSIS:                                 787</span></span>
+<span id="cb5-23"><a href="data-challenge-prep.html#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="do">## TO DO/PLAN:                                      788</span></span>
+<span id="cb5-24"><a href="data-challenge-prep.html#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="do">## BRIEF RESUME OF HOSPITAL COURSE:                 788</span></span>
+<span id="cb5-25"><a href="data-challenge-prep.html#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="do">## OTHER TREATMENTS/PROCEDURES ( NOT IN O.R. )      791</span></span>
+<span id="cb5-26"><a href="data-challenge-prep.html#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Service:                                         791</span></span>
+<span id="cb5-27"><a href="data-challenge-prep.html#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="do">## FOLLOW UP APPOINTMENT( S ):                      795</span></span>
+<span id="cb5-28"><a href="data-challenge-prep.html#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="do">## CODE STATUS:                                     828</span></span>
+<span id="cb5-29"><a href="data-challenge-prep.html#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="do">## MEDICATIONS:                                     853</span></span>
+<span id="cb5-30"><a href="data-challenge-prep.html#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="do">## ATTENDING:                                       878</span></span>
+<span id="cb5-31"><a href="data-challenge-prep.html#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="do">## FAMILY HISTORY:                                  923</span></span>
+<span id="cb5-32"><a href="data-challenge-prep.html#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="do">## PRINCIPAL DIAGNOSIS:                             987</span></span>
+<span id="cb5-33"><a href="data-challenge-prep.html#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="do">## ****** FINAL DISCHARGE ORDERS ******             994</span></span>
+<span id="cb5-34"><a href="data-challenge-prep.html#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="do">## MEDICATIONS ON ADMISSION:                       1014</span></span>
+<span id="cb5-35"><a href="data-challenge-prep.html#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="do">## ****** DISCHARGE ORDERS ******                  1037</span></span>
+<span id="cb5-36"><a href="data-challenge-prep.html#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="do">## DIAGNOSES:                                      1040</span></span>
+<span id="cb5-37"><a href="data-challenge-prep.html#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="do">## PAST SURGICAL HISTORY:                          1066</span></span>
+<span id="cb5-38"><a href="data-challenge-prep.html#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="do">## MEDICATIONS ON DISCHARGE:                       1115</span></span>
+<span id="cb5-39"><a href="data-challenge-prep.html#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="do">## SERVICE:                                        1120</span></span>
+<span id="cb5-40"><a href="data-challenge-prep.html#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="do">## DISCHARGE DIAGNOSIS:                            1129</span></span>
+<span id="cb5-41"><a href="data-challenge-prep.html#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="do">## CHIEF COMPLAINT:                                1133</span></span>
+<span id="cb5-42"><a href="data-challenge-prep.html#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="do">## PHYSICAL EXAMINATION ON ADMISSION:              1168</span></span>
+<span id="cb5-43"><a href="data-challenge-prep.html#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="do">## ADMISSION DIAGNOSIS:                            1181</span></span>
+<span id="cb5-44"><a href="data-challenge-prep.html#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="do">## DISCHARGE INSTRUCTIONS:                         1185</span></span>
+<span id="cb5-45"><a href="data-challenge-prep.html#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="do">## HOSPITAL COURSE BY PROBLEM:                     1187</span></span>
+<span id="cb5-46"><a href="data-challenge-prep.html#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="do">## HOSPITAL COURSE BY SYSTEM:                      1191</span></span>
+<span id="cb5-47"><a href="data-challenge-prep.html#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="do">## DISCHARGE DIAGNOSES:                            1209</span></span>
+<span id="cb5-48"><a href="data-challenge-prep.html#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="do">## ADMISSION LABS:                                 1211</span></span>
+<span id="cb5-49"><a href="data-challenge-prep.html#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="do">## ADMITTING DIAGNOSIS:                            1216</span></span>
+<span id="cb5-50"><a href="data-challenge-prep.html#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="do">## ADMISSION DIAGNOSES:                            1223</span></span>
+<span id="cb5-51"><a href="data-challenge-prep.html#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="do">## PRIMARY DIAGNOSIS:                              1227</span></span>
+<span id="cb5-52"><a href="data-challenge-prep.html#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="do">## BRIEF HISTORY:                                  1230</span></span>
+<span id="cb5-53"><a href="data-challenge-prep.html#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="do">## DISCHARGE STATUS:                               1232</span></span>
+<span id="cb5-54"><a href="data-challenge-prep.html#cb5-54" aria-hidden="true" tabindex="-1"></a><span class="do">## ADMISSION LABORATORY VALUES:                    1234</span></span>
+<span id="cb5-55"><a href="data-challenge-prep.html#cb5-55" aria-hidden="true" tabindex="-1"></a><span class="do">## MEDICATIONS AT TIME OF ADMISSION:               1234</span></span>
+<span id="cb5-56"><a href="data-challenge-prep.html#cb5-56" aria-hidden="true" tabindex="-1"></a><span class="do">## ADMISSION INFORMATION AND CHIEF COMPLAINT:      1236</span></span>
+<span id="cb5-57"><a href="data-challenge-prep.html#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="do">## CONTACTS AT THE HOSPITAL:                       1236</span></span>
+<span id="cb5-58"><a href="data-challenge-prep.html#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="do">## HOSPITAL COURSE BY SYSTEM/ PROBLEM:             1236</span></span>
+<span id="cb5-59"><a href="data-challenge-prep.html#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="do">## MEDICATIONS AT REHAB:                           1236</span></span>
+<span id="cb5-60"><a href="data-challenge-prep.html#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="do">## DISCHARGE LABORATORY VALUES:                    1236</span></span></code></pre></div>
+</div>
+<div id="the-annotation-dataset" class="section level3 hasAnchor" number="4.5.2">
+<h3><span class="header-section-number">4.5.2</span> The Annotation Dataset<a href="data-challenge-prep.html#the-annotation-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The experts were assigned a textual task in which they were required to categorise each disease (see list of diseases above) as Present, Absent, Questionable, or Unmentioned based on the information in the discharge summaries. The experts were also given an intuitive task in which they were instructed to classify each condition as Present, Absent, or Questionable by using their intuition and judgement. Textual task annotations are referred to as textual judgments, while intuitive task annotations are referred to as intuitive judgments <span class="citation">(<a href="#ref-Uzuner2009-na" role="doc-biblioref">Uzuner 2009</a>)</span>.</p>
+<ul>
+<li>Judgment: Present(Y), Absent(N), Questionable(Q), or Unmentioned(U)</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="data-challenge-prep.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># unique values of the disease name in the annotation training dataset.</span></span>
+<span id="cb6-2"><a href="data-challenge-prep.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(annotations_training<span class="sc">$</span>diseaseName)</span>
+<span id="cb6-3"><a href="data-challenge-prep.html#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] &quot;Asthma&quot;               &quot;CAD&quot;                  &quot;CHF&quot;                 </span></span>
+<span id="cb6-4"><a href="data-challenge-prep.html#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4] &quot;Depression&quot;           &quot;Diabetes&quot;             &quot;Gallstones&quot;          </span></span>
+<span id="cb6-5"><a href="data-challenge-prep.html#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  [7] &quot;GERD&quot;                 &quot;Gout&quot;                 &quot;Hypercholesterolemia&quot;</span></span>
+<span id="cb6-6"><a href="data-challenge-prep.html#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [10] &quot;Hypertension&quot;         &quot;Hypertriglyceridemia&quot; &quot;OA&quot;                  </span></span>
+<span id="cb6-7"><a href="data-challenge-prep.html#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [13] &quot;Obesity&quot;              &quot;OSA&quot;                  &quot;PVD&quot;                 </span></span>
+<span id="cb6-8"><a href="data-challenge-prep.html#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [16] &quot;Venous Insufficiency&quot;</span></span>
+<span id="cb6-9"><a href="data-challenge-prep.html#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># count of annotations for &quot;Obesity&quot; disease</span></span>
+<span id="cb6-10"><a href="data-challenge-prep.html#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(annotations_training[annotations_training<span class="sc">$</span>diseaseName <span class="sc">==</span> <span class="st">&quot;Obesity&quot;</span>,])</span>
+<span id="cb6-11"><a href="data-challenge-prep.html#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1160</span></span>
+<span id="cb6-12"><a href="data-challenge-prep.html#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># tabulate the source of the annotations for &quot;obesity&quot; disease.</span></span>
+<span id="cb6-13"><a href="data-challenge-prep.html#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(annotations_training[annotations_training<span class="sc">$</span>diseaseName <span class="sc">==</span> <span class="st">&quot;Obesity&quot;</span>,]<span class="sc">$</span>Source)</span>
+<span id="cb6-14"><a href="data-challenge-prep.html#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb6-15"><a href="data-challenge-prep.html#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">## intuitive   textual </span></span>
+<span id="cb6-16"><a href="data-challenge-prep.html#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="do">##       554       606</span></span>
+<span id="cb6-17"><a href="data-challenge-prep.html#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># count # of annotations for &quot;Obesity&quot; disease</span></span>
+<span id="cb6-18"><a href="data-challenge-prep.html#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(annotations_training[annotations_training<span class="sc">$</span>diseaseName <span class="sc">==</span> <span class="st">&quot;Obesity&quot;</span>,]<span class="sc">$</span>doc_id))</span>
+<span id="cb6-19"><a href="data-challenge-prep.html#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 608</span></span>
+<span id="cb6-20"><a href="data-challenge-prep.html#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># unique judgment</span></span>
+<span id="cb6-21"><a href="data-challenge-prep.html#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(annotations_training<span class="sc">$</span>judgment)</span>
+<span id="cb6-22"><a href="data-challenge-prep.html#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] &quot;N&quot; &quot;Y&quot; &quot;Q&quot; &quot;U&quot;</span></span></code></pre></div>
+</div>
+</div>
+<div id="your-analyses" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> Your Analyses<a href="data-challenge-prep.html#your-analyses" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>You may start from here to conduct your analyses.</p>
+<ul>
+<li>Please note that you may need to select or combine the columns of interest from the <code>pt_record_final</code> dataframe. For instance, there are multiple columns related to diagnosis. You may need to combine or paste them to get all the diagnosis fields.</li>
+<li>You may need to filter or reshape the <code>annotations_training</code> dataset to suit your needs.</li>
+<li>For classification models, you may need to use training and test data separately for different tasks.</li>
+<li>For classification models, you may need to merge the discharge summary dataset <code>pt_record_final</code> with the annotation dataset <code>annotations_training</code>.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="data-challenge-prep.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># discharge summary dataset</span></span>
+<span id="cb7-2"><a href="data-challenge-prep.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(pt_record_final)</span>
+<span id="cb7-3"><a href="data-challenge-prep.html#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1237</span></span>
+<span id="cb7-4"><a href="data-challenge-prep.html#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(pt_record_final[pt_record_final<span class="sc">$</span>Dataset <span class="sc">==</span> <span class="st">&quot;Training&quot;</span>,])</span>
+<span id="cb7-5"><a href="data-challenge-prep.html#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 730</span></span>
+<span id="cb7-6"><a href="data-challenge-prep.html#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(pt_record_final[pt_record_final<span class="sc">$</span>Dataset <span class="sc">==</span> <span class="st">&quot;Test&quot;</span>,])</span>
+<span id="cb7-7"><a href="data-challenge-prep.html#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 507</span></span>
+<span id="cb7-8"><a href="data-challenge-prep.html#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="data-challenge-prep.html#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># annotation dataset</span></span>
+<span id="cb7-10"><a href="data-challenge-prep.html#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(annotations_training)</span>
+<span id="cb7-11"><a href="data-challenge-prep.html#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 18276</span></span>
+<span id="cb7-12"><a href="data-challenge-prep.html#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="data-challenge-prep.html#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># you can start from here, to be continued...</span></span></code></pre></div>
+</div>
+<div id="appendixfeature" class="section level2 hasAnchor" number="4.7">
+<h2><span class="header-section-number">4.7</span> Appendix: Feature Manual Extraction from the Text<a href="data-challenge-prep.html#appendixfeature" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This is an iterative process to find potential features from the text.
+You may need to use regular expression or other string processing techniques from the <code>stringr</code> package.
+First, separate the text by line, and place each line in its own row.
+Then, we find the most frequent contexts and their frequencies; and decide whether we should extract it as a pattern.
+The details of the process can be found in the Appendix.</p>
+<p>The code below gives you the finalized list of features. You are free to explore or change them to your own needs.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="data-challenge-prep.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is an iterative process to find the features. </span></span>
+<span id="cb8-2"><a href="data-challenge-prep.html#cb8-2" aria-hidden="true" tabindex="-1"></a>lineGroupBy <span class="ot">=</span> pt_record_raw <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="data-challenge-prep.html#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate_rows</span>(text,<span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="data-challenge-prep.html#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(text)<span class="sc">%&gt;%</span><span class="fu">summarize</span>(<span class="at">count=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="data-challenge-prep.html#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(count))</span>
+<span id="cb8-6"><a href="data-challenge-prep.html#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="data-challenge-prep.html#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># edit the pattern to add new features, use &quot;|&quot; to separate the potential features.</span></span>
+<span id="cb8-8"><a href="data-challenge-prep.html#cb8-8" aria-hidden="true" tabindex="-1"></a>pattern <span class="ot">=</span> <span class="st">&quot;PRIMARY DIAGNOSIS:|DIAGNOSES:|ADMISSION DIAGNOSES:|DISCHARGE DIAGNOSES: |BRIEF HISTORY:|ADMISSION DIAGNOSIS:|ADMITTING DIAGNOSIS: |DISCHARGE DIAGNOSIS: |</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">* DISCHARGE ORDERS </span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*|ADDITIONAL COMMENTS:|</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">* FINAL DISCHARGE ORDERS </span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*</span><span class="sc">\\</span><span class="st">*|OTHER TREATMENTS</span><span class="sc">\\</span><span class="st">/PROCEDURES </span><span class="sc">\\</span><span class="st">( NOT IN O.R. </span><span class="sc">\\</span><span class="st">)|DISCHARGE CONDITION:|DISCHARGE INSTRUCTIONS:|PHYSICAL EXAMINATION ON ADMISSION:|PAST SURGICAL HISTORY:|PRINCIPAL DIAGNOSIS:|MEDICATIONS ON ADMISSION:|CODE STATUS:|HOSPITAL COURSE BY SYSTEM:|HOSPITAL COURSE:|Attending:|FAMILY HISTORY:|HOSPITAL COURSE BY PROBLEM:|MEDICATIONS ON DISCHARGE:|MEDICATIONS:|Discharge Date:|Dictated By:|ATTENDING:|SERVICE:|ADMISSION INFORMATION AND CHIEF COMPLAINT:|CHIEF COMPLAINT:|HISTORY OF PRESENT ILLNESS:|ADMISSION LABS:|ADMISSION LABORATORY VALUES:|PAST MEDICAL HISTORY:|MEDICATIONS AT REHAB:|MEDICATIONS AT TIME OF ADMISSION:|PHYSICAL EXAMINATION:|ALLERGIES:|SOCIAL HISTORY:|FAMILY HISTORY:|HOSPITAL COURSE BY SYSTEM/ PROBLEM:|DISCHARGE STATUS:|CONTACTS AT THE HOSPITAL:|DISCHARGE LABORATORY VALUES:|DISCHARGE MEDICATIONS:|DISPOSITION:|ALLERGIES:|Service:|OTHER TREATMENTS/PROCEDURES ( NOT IN O.R. )|DISPOSITION:|BRIEF RESUME OF HOSPITAL COURSE:|ADMIT DIAGNOSIS:|TO DO/PLAN:|FOLLOW UP APPOINTMENT</span><span class="sc">\\</span><span class="st">( S </span><span class="sc">\\</span><span class="st">):|OPERATIONS AND PROCEDURES:|DISCHARGE MEDICATIONS:|Discharge Date:|Dictated By:|ATTENDING:|SERVICE:|ADMISSION INFORMATION AND CHIEF COMPLAINT:&quot;</span></span>
+<span id="cb8-9"><a href="data-challenge-prep.html#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="data-challenge-prep.html#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create the temporary dataframe to store the potential features using the pattern</span></span>
+<span id="cb8-11"><a href="data-challenge-prep.html#cb8-11" aria-hidden="true" tabindex="-1"></a>test <span class="ot">=</span> pt_record_raw <span class="sc">%&gt;%</span> <span class="fu">separate_rows</span>(text, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-12"><a href="data-challenge-prep.html#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(text <span class="sc">!=</span> <span class="st">&quot;&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-13"><a href="data-challenge-prep.html#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text_id =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb8-14"><a href="data-challenge-prep.html#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item_id =</span> <span class="fu">ifelse</span>(<span class="fu">str_starts</span>(text, pattern), <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-15"><a href="data-challenge-prep.html#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">title =</span> <span class="fu">ifelse</span>(item_id <span class="sc">==</span> <span class="dv">1</span>,<span class="fu">str_extract</span>(text, pattern), <span class="cn">NA</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-16"><a href="data-challenge-prep.html#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(title) <span class="sc">%&gt;%</span></span>
+<span id="cb8-17"><a href="data-challenge-prep.html#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(doc_id) <span class="sc">%&gt;%</span></span>
+<span id="cb8-18"><a href="data-challenge-prep.html#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text_id_by_doc =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb8-19"><a href="data-challenge-prep.html#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">title =</span> <span class="fu">ifelse</span>(text_id_by_doc <span class="sc">==</span> <span class="dv">1</span>, <span class="st">&quot;OneLine&quot;</span>, title))</span>
+<span id="cb8-20"><a href="data-challenge-prep.html#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="data-challenge-prep.html#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># scanning the remaining text to find any missing feature and then edit the pattern to add new features.</span></span>
+<span id="cb8-22"><a href="data-challenge-prep.html#cb8-22" aria-hidden="true" tabindex="-1"></a>lineGroupBy <span class="ot">=</span> test <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(text) <span class="sc">%&gt;%</span></span>
+<span id="cb8-23"><a href="data-challenge-prep.html#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>(), <span class="at">id =</span> <span class="fu">sum</span>(item_id)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-24"><a href="data-challenge-prep.html#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(id <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-25"><a href="data-challenge-prep.html#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(count))</span>
+<span id="cb8-26"><a href="data-challenge-prep.html#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="data-challenge-prep.html#cb8-27" aria-hidden="true" tabindex="-1"></a>tempfinal2 <span class="ot">=</span> test<span class="sc">%&gt;%</span><span class="fu">select</span>(doc_id, Dataset,title,text,text_id)<span class="sc">%&gt;%</span></span>
+<span id="cb8-28"><a href="data-challenge-prep.html#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(text_id)<span class="sc">%&gt;%</span></span>
+<span id="cb8-29"><a href="data-challenge-prep.html#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>text_id)<span class="sc">%&gt;%</span></span>
+<span id="cb8-30"><a href="data-challenge-prep.html#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> title,<span class="at">values_from =</span> text,<span class="at">values_fn =</span> list)</span>
+<span id="cb8-31"><a href="data-challenge-prep.html#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="data-challenge-prep.html#cb8-32" aria-hidden="true" tabindex="-1"></a>tempfinal3 <span class="ot">=</span> test <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(text_id)<span class="sc">%&gt;%</span><span class="fu">group_by</span>(doc_id, Dataset,title) <span class="sc">%&gt;%</span></span>
+<span id="cb8-33"><a href="data-challenge-prep.html#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">longtext =</span> <span class="fu">paste0</span>(text,<span class="at">collapse=</span><span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-34"><a href="data-challenge-prep.html#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> title,<span class="at">values_from =</span> longtext)</span></code></pre></div>
+<p>Save the dataframe as csv files.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="data-challenge-prep.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save the dataframe as csv files</span></span>
+<span id="cb9-2"><a href="data-challenge-prep.html#cb9-2" aria-hidden="true" tabindex="-1"></a>pt_record_final <span class="sc">%&gt;%</span> <span class="fu">write.csv</span>(<span class="st">&quot;obesity_pt_record_final.csv&quot;</span>)</span>
+<span id="cb9-3"><a href="data-challenge-prep.html#cb9-3" aria-hidden="true" tabindex="-1"></a>annotations_training <span class="sc">%&gt;%</span> <span class="fu">write.csv</span>(<span class="st">&quot;obesity_annotations_training.csv&quot;</span>)</span></code></pre></div>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Uzuner2009-na" class="csl-entry">
+Uzuner, Ozlem. 2009. <span>“Recognizing Obesity and Comorbidities in Sparse Data.”</span> <em>J. Am. Med. Inform. Assoc.</em> 16 (4): 561–70.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tutorial2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="relevant-resources.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["AI4PH2022.pdf", "AI4PH2022.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

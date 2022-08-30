@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Text Analytics with R: Topic Modelling | AI4PH: Text Analyses with R Tutorial and Data Challenge</title>
+  <meta name="description" content="Welcome to AI4PH Summer Institute 2022." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Text Analytics with R: Topic Modelling | AI4PH: Text Analyses with R Tutorial and Data Challenge" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Welcome to AI4PH Summer Institute 2022." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Text Analytics with R: Topic Modelling | AI4PH: Text Analyses with R Tutorial and Data Challenge" />
+  
+  <meta name="twitter:description" content="Welcome to AI4PH Summer Institute 2022." />
+  
+
+<meta name="author" content="Yuan Tian" />
+
+
+<meta name="date" content="2022-07-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="tutorial.html"/>
+<link rel="next" href="data-challenge-prep.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://bookdown.org/tianyuan09/ai4ph2022/">AI4PH2022</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="prerequisite.html"><a href="prerequisite.html"><i class="fa fa-check"></i><b>1</b> Prerequisite</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="prerequisite.html"><a href="prerequisite.html#before-the-sessions"><i class="fa fa-check"></i><b>1.1</b> Before the sessions</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="prerequisite.html"><a href="prerequisite.html#install-required-r-packages"><i class="fa fa-check"></i><b>1.1.1</b> Install Required R Packages</a></li>
+<li class="chapter" data-level="1.1.2" data-path="prerequisite.html"><a href="prerequisite.html#twitter-dataset-for-the-tutorial"><i class="fa fa-check"></i><b>1.1.2</b> Twitter Dataset for the Tutorial</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="tutorial.html"><a href="tutorial.html"><i class="fa fa-check"></i><b>2</b> Text Analytics with R: Classification</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tutorial.html"><a href="tutorial.html#initial-r-setup"><i class="fa fa-check"></i><b>2.1</b> Initial R Setup</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="tutorial.html"><a href="tutorial.html#load-the-r-packages"><i class="fa fa-check"></i><b>2.1.1</b> Load the R Packages</a></li>
+<li class="chapter" data-level="2.1.2" data-path="tutorial.html"><a href="tutorial.html#load-the-twitter-data-for-classification"><i class="fa fa-check"></i><b>2.1.2</b> Load the Twitter Data for Classification</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="tutorial.html"><a href="tutorial.html#data-pre-processing"><i class="fa fa-check"></i><b>2.2</b> Data Pre-processing</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="tutorial.html"><a href="tutorial.html#regular-expressions"><i class="fa fa-check"></i><b>2.2.1</b> Regular Expressions</a></li>
+<li class="chapter" data-level="2.2.2" data-path="tutorial.html"><a href="tutorial.html#tokenization"><i class="fa fa-check"></i><b>2.2.2</b> Tokenization</a></li>
+<li class="chapter" data-level="2.2.3" data-path="tutorial.html"><a href="tutorial.html#stop-words"><i class="fa fa-check"></i><b>2.2.3</b> Stop Words</a></li>
+<li class="chapter" data-level="2.2.4" data-path="tutorial.html"><a href="tutorial.html#stemming"><i class="fa fa-check"></i><b>2.2.4</b> Stemming</a></li>
+<li class="chapter" data-level="2.2.5" data-path="tutorial.html"><a href="tutorial.html#exporatory-data-analysis"><i class="fa fa-check"></i><b>2.2.5</b> Exporatory Data Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="tutorial.html"><a href="tutorial.html#classification-models"><i class="fa fa-check"></i><b>2.3</b> Classification Models</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="tutorial.html"><a href="tutorial.html#split-the-training-and-test-set"><i class="fa fa-check"></i><b>2.3.1</b> Split the Training and Test Set</a></li>
+<li class="chapter" data-level="2.3.2" data-path="tutorial.html"><a href="tutorial.html#pre-processing-with-the-recipe"><i class="fa fa-check"></i><b>2.3.2</b> Pre-processing with the <code>recipe()</code></a></li>
+<li class="chapter" data-level="2.3.3" data-path="tutorial.html"><a href="tutorial.html#choose-a-classification-model"><i class="fa fa-check"></i><b>2.3.3</b> Choose a Classification Model</a></li>
+<li class="chapter" data-level="2.3.4" data-path="tutorial.html"><a href="tutorial.html#the-workflow-for-bundling-recipe-and-models"><i class="fa fa-check"></i><b>2.3.4</b> The <code>workflow()</code> for bundling <code>recipe()</code> and models</a></li>
+<li class="chapter" data-level="2.3.5" data-path="tutorial.html"><a href="tutorial.html#model-evaluation"><i class="fa fa-check"></i><b>2.3.5</b> Model Evaluation</a></li>
+<li class="chapter" data-level="2.3.6" data-path="tutorial.html"><a href="tutorial.html#evaluate-on-the-testing-set-optional"><i class="fa fa-check"></i><b>2.3.6</b> Evaluate on the Testing Set (Optional)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tutorial2.html"><a href="tutorial2.html"><i class="fa fa-check"></i><b>3</b> Text Analytics with R: Topic Modelling</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="tutorial2.html"><a href="tutorial2.html#initial-r-setup-1"><i class="fa fa-check"></i><b>3.1</b> Initial R Setup</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="tutorial2.html"><a href="tutorial2.html#load-the-r-packages-1"><i class="fa fa-check"></i><b>3.1.1</b> Load the R Packages</a></li>
+<li class="chapter" data-level="3.1.2" data-path="tutorial2.html"><a href="tutorial2.html#load-the-twitter-data-for-topic-modelling"><i class="fa fa-check"></i><b>3.1.2</b> Load the Twitter Data for Topic Modelling</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="tutorial2.html"><a href="tutorial2.html#topic-modelling"><i class="fa fa-check"></i><b>3.2</b> Topic Modelling</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="tutorial2.html"><a href="tutorial2.html#latent-dirichlet-allocation-lda"><i class="fa fa-check"></i><b>3.2.1</b> Latent Dirichlet allocation (LDA)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html"><i class="fa fa-check"></i><b>4</b> Data Challenge Prep</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#n2c2-nlp-research-datasets"><i class="fa fa-check"></i><b>4.1</b> N2C2 NLP Research Datasets</a></li>
+<li class="chapter" data-level="4.2" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#initial-r-setup-2"><i class="fa fa-check"></i><b>4.2</b> Initial R Setup</a></li>
+<li class="chapter" data-level="4.3" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#reading-xml-files-in-r"><i class="fa fa-check"></i><b>4.3</b> Reading XML files in R</a></li>
+<li class="chapter" data-level="4.4" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#preprocessing-the-text-column-in-the-pt_record_raw-dataframe"><i class="fa fa-check"></i><b>4.4</b> Preprocessing the <code>text</code> column in the <code>pt_record_raw</code> dataframe</a></li>
+<li class="chapter" data-level="4.5" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#descriptive-statistics"><i class="fa fa-check"></i><b>4.5</b> Descriptive Statistics</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#discharge-summary-dataset"><i class="fa fa-check"></i><b>4.5.1</b> Discharge Summary Dataset</a></li>
+<li class="chapter" data-level="4.5.2" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#the-annotation-dataset"><i class="fa fa-check"></i><b>4.5.2</b> The Annotation Dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#your-analyses"><i class="fa fa-check"></i><b>4.6</b> Your Analyses</a></li>
+<li class="chapter" data-level="4.7" data-path="data-challenge-prep.html"><a href="data-challenge-prep.html#appendixfeature"><i class="fa fa-check"></i><b>4.7</b> Appendix: Feature Manual Extraction from the Text</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="relevant-resources.html"><a href="relevant-resources.html"><i class="fa fa-check"></i><b>5</b> Relevant Resources</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">AI4PH: Text Analyses with R Tutorial and Data Challenge</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tutorial2" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">3</span> Text Analytics with R: Topic Modelling<a href="tutorial2.html#tutorial2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This tutorial introduces text analyses in R using a variety of R packages and tidy tools.</p>
+<div id="initial-r-setup-1" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Initial R Setup<a href="tutorial2.html#initial-r-setup-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="load-the-r-packages-1" class="section level3 hasAnchor" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Load the R Packages<a href="tutorial2.html#load-the-r-packages-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Load and import the necessary R packages:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="tutorial2.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="tutorial2.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># a collection of package for data wrangling.</span></span>
+<span id="cb1-3"><a href="tutorial2.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="tutorial2.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># package for text processing</span></span>
+<span id="cb1-5"><a href="tutorial2.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-6"><a href="tutorial2.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># collection of packages for modeling and L </span></span>
+<span id="cb1-7"><a href="tutorial2.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-8"><a href="tutorial2.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb1-9"><a href="tutorial2.html#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># R package for managing and analyzing textual data</span></span>
+<span id="cb1-10"><a href="tutorial2.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span>
+<span id="cb1-11"><a href="tutorial2.html#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># An R package with word stemming algorithm</span></span>
+<span id="cb1-12"><a href="tutorial2.html#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># collapsing words to a common root to aid comparison of vocabular. </span></span>
+<span id="cb1-13"><a href="tutorial2.html#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SnowballC)</span>
+<span id="cb1-14"><a href="tutorial2.html#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># library for topic models (LDA)</span></span>
+<span id="cb1-15"><a href="tutorial2.html#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(topicmodels)</span>
+<span id="cb1-16"><a href="tutorial2.html#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># text recipe</span></span>
+<span id="cb1-17"><a href="tutorial2.html#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(textrecipes)</span>
+<span id="cb1-18"><a href="tutorial2.html#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># dealing with imbalance data using `step_downsample or upsample`.</span></span>
+<span id="cb1-19"><a href="tutorial2.html#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(themis)</span>
+<span id="cb1-20"><a href="tutorial2.html#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># https://github.com/tidymodels/discrim</span></span>
+<span id="cb1-21"><a href="tutorial2.html#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(discrim)</span>
+<span id="cb1-22"><a href="tutorial2.html#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># framework for constructing variable importance plots from ML models</span></span>
+<span id="cb1-23"><a href="tutorial2.html#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vip)</span></code></pre></div>
+</div>
+<div id="load-the-twitter-data-for-topic-modelling" class="section level3 hasAnchor" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Load the Twitter Data for Topic Modelling<a href="tutorial2.html#load-the-twitter-data-for-topic-modelling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We start from data loading and text pre-processing.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="tutorial2.html#cb2-1" aria-hidden="true" tabindex="-1"></a>urlfile_tm <span class="ot">&lt;-</span><span class="st">&quot;https://raw.githubusercontent.com/tianyuan09/ai4ph2022/main/sampleTwitterDataForTopicModelling.csv&quot;</span></span>
+<span id="cb2-2"><a href="tutorial2.html#cb2-2" aria-hidden="true" tabindex="-1"></a>tweetsTMDF <span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="fu">url</span>(urlfile_tm), <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>)</span>
+<span id="cb2-3"><a href="tutorial2.html#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="tutorial2.html#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="do">### UDF to remove the URLs from the tweets</span></span>
+<span id="cb2-5"><a href="tutorial2.html#cb2-5" aria-hidden="true" tabindex="-1"></a>removeURLs <span class="ot">&lt;-</span> <span class="cf">function</span>(tweet) {</span>
+<span id="cb2-6"><a href="tutorial2.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">gsub</span>(<span class="st">&quot;http</span><span class="sc">\\</span><span class="st">S+&quot;</span>, <span class="st">&quot;&quot;</span>, tweet))</span>
+<span id="cb2-7"><a href="tutorial2.html#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-8"><a href="tutorial2.html#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="do">### UDF to remove RT from the tweets</span></span>
+<span id="cb2-9"><a href="tutorial2.html#cb2-9" aria-hidden="true" tabindex="-1"></a>removeUsernamesWithRT <span class="ot">&lt;-</span> <span class="cf">function</span>(tweet) {</span>
+<span id="cb2-10"><a href="tutorial2.html#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">gsub</span>(<span class="st">&quot;^RT @[a-z,A-Z]*[0-9]*[a-z,A-Z]*[0-9]*: &quot;</span>,<span class="st">&quot;&quot;</span>, tweet))</span>
+<span id="cb2-11"><a href="tutorial2.html#cb2-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-12"><a href="tutorial2.html#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="do">### UDF to remove the usernames or callouts from the tweets</span></span>
+<span id="cb2-13"><a href="tutorial2.html#cb2-13" aria-hidden="true" tabindex="-1"></a>removeUsernames <span class="ot">&lt;-</span> <span class="cf">function</span>(tweet) {</span>
+<span id="cb2-14"><a href="tutorial2.html#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">gsub</span>(<span class="st">&quot;@[a-z,A-Z]*[0-9]*[a-z,A-Z]*[0-9]*&quot;</span>, <span class="st">&quot;&quot;</span>, tweet))</span>
+<span id="cb2-15"><a href="tutorial2.html#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-16"><a href="tutorial2.html#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="do">### remove the hashtag # from the tweets</span></span>
+<span id="cb2-17"><a href="tutorial2.html#cb2-17" aria-hidden="true" tabindex="-1"></a>removeHashtagSignOnly <span class="ot">&lt;-</span> <span class="cf">function</span>(tweet) {</span>
+<span id="cb2-18"><a href="tutorial2.html#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">gsub</span>(<span class="st">&quot;#&quot;</span>, <span class="st">&quot;&quot;</span>, tweet))</span>
+<span id="cb2-19"><a href="tutorial2.html#cb2-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-20"><a href="tutorial2.html#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="tutorial2.html#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># pre-processing using regex</span></span>
+<span id="cb2-22"><a href="tutorial2.html#cb2-22" aria-hidden="true" tabindex="-1"></a>tweetsTMDF<span class="sc">$</span>processed_tweet <span class="ot">&lt;-</span> <span class="fu">apply</span>(tweetsTMDF[<span class="st">&#39;tweet&#39;</span>], <span class="dv">2</span>, </span>
+<span id="cb2-23"><a href="tutorial2.html#cb2-23" aria-hidden="true" tabindex="-1"></a>                                    removeURLs) </span>
+<span id="cb2-24"><a href="tutorial2.html#cb2-24" aria-hidden="true" tabindex="-1"></a>tweetsTMDF<span class="sc">$</span>processed_tweet <span class="ot">&lt;-</span> <span class="fu">apply</span>(tweetsTMDF[<span class="st">&#39;processed_tweet&#39;</span>],<span class="dv">2</span>, </span>
+<span id="cb2-25"><a href="tutorial2.html#cb2-25" aria-hidden="true" tabindex="-1"></a>                                    removeUsernamesWithRT) </span>
+<span id="cb2-26"><a href="tutorial2.html#cb2-26" aria-hidden="true" tabindex="-1"></a>tweetsTMDF<span class="sc">$</span>processed_tweet <span class="ot">&lt;-</span> <span class="fu">apply</span>(tweetsTMDF[<span class="st">&#39;processed_tweet&#39;</span>],<span class="dv">2</span>, </span>
+<span id="cb2-27"><a href="tutorial2.html#cb2-27" aria-hidden="true" tabindex="-1"></a>                                    removeUsernames)</span>
+<span id="cb2-28"><a href="tutorial2.html#cb2-28" aria-hidden="true" tabindex="-1"></a>tweetsTMDF<span class="sc">$</span>processed_tweet <span class="ot">&lt;-</span> <span class="fu">apply</span>(tweetsTMDF[<span class="st">&#39;processed_tweet&#39;</span>],<span class="dv">2</span>, </span>
+<span id="cb2-29"><a href="tutorial2.html#cb2-29" aria-hidden="true" tabindex="-1"></a>                                    removeHashtagSignOnly)</span>
+<span id="cb2-30"><a href="tutorial2.html#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="tutorial2.html#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># pre-processing tokenization, stopword, stemming</span></span>
+<span id="cb2-32"><a href="tutorial2.html#cb2-32" aria-hidden="true" tabindex="-1"></a>text_tmdf <span class="ot">&lt;-</span> tweetsTMDF <span class="sc">%&gt;%</span> <span class="fu">select</span>(X,processed_tweet) <span class="sc">%&gt;%</span></span>
+<span id="cb2-33"><a href="tutorial2.html#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest_tokens</span>(word, processed_tweet)<span class="sc">%&gt;%</span></span>
+<span id="cb2-34"><a href="tutorial2.html#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words[stop_words<span class="sc">$</span>lexicon <span class="sc">==</span> <span class="st">&quot;snowball&quot;</span>,], <span class="at">by =</span> <span class="st">&quot;word&quot;</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb2-35"><a href="tutorial2.html#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">stem =</span> <span class="fu">wordStem</span>(word))</span>
+<span id="cb2-36"><a href="tutorial2.html#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="tutorial2.html#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="tutorial2.html#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co">#  we can tokenize text into consecutive sequences of words, called n-grams</span></span>
+<span id="cb2-39"><a href="tutorial2.html#cb2-39" aria-hidden="true" tabindex="-1"></a>text_bigrams<span class="ot">&lt;-</span>tweetsTMDF <span class="sc">%&gt;%</span> <span class="fu">select</span>(X,processed_tweet) <span class="sc">%&gt;%</span></span>
+<span id="cb2-40"><a href="tutorial2.html#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(bigram, processed_tweet, <span class="at">token=</span><span class="st">&quot;ngrams&quot;</span>, <span class="at">n=</span><span class="dv">2</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb2-41"><a href="tutorial2.html#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(bigram <span class="sc">!=</span> <span class="st">&quot;covid 19&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="topic-modelling" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Topic Modelling<a href="tutorial2.html#topic-modelling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Topic modelling is an unsupervised machine learning approach that can scan a collection of documents, find word and phrase patterns within them, and automatically cluster word groupings and related expressions into topics.</p>
+<p><strong>What is topic modelling?</strong></p>
+<blockquote>
+<p>Topic modeling, including probabilistic latent semantic indexing and latent Dirichlet allocation, is a form of dimension reduction that uses a probabilistic model to find the co-occurrence patterns of terms that correspond to semantic topics in a collection of documents <span class="citation">(<a href="#ref-Crain2012-tg" role="doc-biblioref">Crain et al. 2012</a>)</span>.</p>
+</blockquote>
+<p>Topic models require a lot of subjective interpretation when it comes:</p>
+<ul>
+<li>the choice of <em>K</em> topics. There is no clear criteria for determining the number of topics K. When it comes to interpretability or coherence of topics, top words might help. You should always inspect topics manually, think carefully about theoretical concepts that you can measure with topics.</li>
+<li>the identification and exclusion of background topics</li>
+<li>the interpretation and labeling of topics identified as relevant</li>
+<li>the “assignment” of topics to documents</li>
+</ul>
+<div id="latent-dirichlet-allocation-lda" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Latent Dirichlet allocation (LDA)<a href="tutorial2.html#latent-dirichlet-allocation-lda" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Latent Dirichlet allocation (LDA) is the one of the most common algorithms for topic modelling, and it is guided by two principles:</p>
+<ol style="list-style-type: decimal">
+<li>Each document has a mixture of topics.</li>
+<li>Each topic is a mixture of words.</li>
+</ol>
+<p>LDA estimate both of these at the same time and find the mixture of words that associated with each topic.</p>
+<p>Create a <code>document-term-matrix</code> using the <code>cast_dfm()</code>. More information about tidy text format can be found at <a href="https://www.tidytextmining.com/dtm.html">here</a> <span class="citation">(<a href="#ref-Silge2017-yl" role="doc-biblioref">Silge and Robinson 2017</a>)</span></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="tutorial2.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a document term (or feature) matrix</span></span>
+<span id="cb3-2"><a href="tutorial2.html#cb3-2" aria-hidden="true" tabindex="-1"></a>word_counts_dtm <span class="ot">=</span> text_tmdf <span class="sc">%&gt;%</span> <span class="fu">count</span>(X, word) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="tutorial2.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cast_dfm</span>(X, word, n)</span>
+<span id="cb3-4"><a href="tutorial2.html#cb3-4" aria-hidden="true" tabindex="-1"></a>word_counts_dtm</span>
+<span id="cb3-5"><a href="tutorial2.html#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Document-feature matrix of: 12,808 documents, 16,728 features (99.94% sparse) and 0 docvars.</span></span>
+<span id="cb3-6"><a href="tutorial2.html#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">##     features</span></span>
+<span id="cb3-7"><a href="tutorial2.html#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="do">## docs agree also don’t everyone isolating masks one way wearing fort</span></span>
+<span id="cb3-8"><a href="tutorial2.html#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="do">##   18     1    1     1        1         1     1   1   2       1    0</span></span>
+<span id="cb3-9"><a href="tutorial2.html#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="do">##   30     0    0     0        0         0     0   0   0       0    1</span></span>
+<span id="cb3-10"><a href="tutorial2.html#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="do">##   31     0    0     0        0         0     0   0   0       0    0</span></span>
+<span id="cb3-11"><a href="tutorial2.html#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="do">##   38     0    0     0        0         0     0   0   0       0    0</span></span>
+<span id="cb3-12"><a href="tutorial2.html#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="do">##   47     0    0     0        0         0     0   0   0       0    0</span></span>
+<span id="cb3-13"><a href="tutorial2.html#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="do">##   57     0    0     0        0         0     1   0   0       1    0</span></span>
+<span id="cb3-14"><a href="tutorial2.html#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="do">## [ reached max_ndoc ... 12,802 more documents, reached max_nfeat ... 16,718 more features ]</span></span>
+<span id="cb3-15"><a href="tutorial2.html#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="tutorial2.html#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># check the top features in our dataset</span></span>
+<span id="cb3-17"><a href="tutorial2.html#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">topfeatures</span>(word_counts_dtm, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">scheme =</span> <span class="st">&quot;docfreq&quot;</span>)</span>
+<span id="cb3-18"><a href="tutorial2.html#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="do">##        covid           19     pandemic        cases          new      covid19 </span></span>
+<span id="cb3-19"><a href="tutorial2.html#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="do">##         4784         3213         1328          892          873          826 </span></span>
+<span id="cb3-20"><a href="tutorial2.html#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="do">## saskatchewan         sask  coronavirus      vaccine       people         mask </span></span>
+<span id="cb3-21"><a href="tutorial2.html#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="do">##          822          799          780          763          708          608 </span></span>
+<span id="cb3-22"><a href="tutorial2.html#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="do">##         will          get          can        masks          one   vaccinated </span></span>
+<span id="cb3-23"><a href="tutorial2.html#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="do">##          544          494          480          470          460          449 </span></span>
+<span id="cb3-24"><a href="tutorial2.html#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="do">##          now       health </span></span>
+<span id="cb3-25"><a href="tutorial2.html#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="do">##          440          434</span></span>
+<span id="cb3-26"><a href="tutorial2.html#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="tutorial2.html#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># bigram matrix</span></span>
+<span id="cb3-28"><a href="tutorial2.html#cb3-28" aria-hidden="true" tabindex="-1"></a>bigrams_counts_dtm <span class="ot">=</span> text_bigrams <span class="sc">%&gt;%</span> <span class="fu">count</span>(X,bigram)<span class="sc">%&gt;%</span></span>
+<span id="cb3-29"><a href="tutorial2.html#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cast_dfm</span>(X, bigram, n)</span>
+<span id="cb3-30"><a href="tutorial2.html#cb3-30" aria-hidden="true" tabindex="-1"></a>bigrams_counts_dtm</span>
+<span id="cb3-31"><a href="tutorial2.html#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="do">## Document-feature matrix of: 12,776 documents, 96,879 features (99.99% sparse) and 0 docvars.</span></span>
+<span id="cb3-32"><a href="tutorial2.html#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="do">##     features</span></span>
+<span id="cb3-33"><a href="tutorial2.html#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="do">## docs a way agree that also be be a don’t agree everyone wearing i don’t is only</span></span>
+<span id="cb3-34"><a href="tutorial2.html#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="do">##   18     1          1       1    1           1                1       1       1</span></span>
+<span id="cb3-35"><a href="tutorial2.html#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="do">##   30     0          0       0    0           0                0       0       0</span></span>
+<span id="cb3-36"><a href="tutorial2.html#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="do">##   31     0          0       0    0           0                0       0       0</span></span>
+<span id="cb3-37"><a href="tutorial2.html#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="do">##   38     0          0       0    0           0                0       0       0</span></span>
+<span id="cb3-38"><a href="tutorial2.html#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="do">##   47     0          0       0    0           0                0       0       0</span></span>
+<span id="cb3-39"><a href="tutorial2.html#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="do">##   57     0          0       0    0           0                0       0       0</span></span>
+<span id="cb3-40"><a href="tutorial2.html#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="do">##     features</span></span>
+<span id="cb3-41"><a href="tutorial2.html#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="do">## docs masks would one way</span></span>
+<span id="cb3-42"><a href="tutorial2.html#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="do">##   18           1       1</span></span>
+<span id="cb3-43"><a href="tutorial2.html#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="do">##   30           0       0</span></span>
+<span id="cb3-44"><a href="tutorial2.html#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="do">##   31           0       0</span></span>
+<span id="cb3-45"><a href="tutorial2.html#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="do">##   38           0       0</span></span>
+<span id="cb3-46"><a href="tutorial2.html#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="do">##   47           0       0</span></span>
+<span id="cb3-47"><a href="tutorial2.html#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="do">##   57           0       0</span></span>
+<span id="cb3-48"><a href="tutorial2.html#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="do">## [ reached max_ndoc ... 12,770 more documents, reached max_nfeat ... 96,869 more features ]</span></span>
+<span id="cb3-49"><a href="tutorial2.html#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-50"><a href="tutorial2.html#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="fu">topfeatures</span>(bigrams_counts_dtm, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">scheme =</span> <span class="st">&quot;docfreq&quot;</span>)</span>
+<span id="cb3-51"><a href="tutorial2.html#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="do">##          of covid            in the            of the         the covid </span></span>
+<span id="cb3-52"><a href="tutorial2.html#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="do">##               549               505               466               327 </span></span>
+<span id="cb3-53"><a href="tutorial2.html#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="do">##      the pandemic            to the         new cases   in saskatchewan </span></span>
+<span id="cb3-54"><a href="tutorial2.html#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="do">##               314               301               294               274 </span></span>
+<span id="cb3-55"><a href="tutorial2.html#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="do">## social distancing          19 cases             19 in            a mask </span></span>
+<span id="cb3-56"><a href="tutorial2.html#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="do">##               258               252               239               234 </span></span>
+<span id="cb3-57"><a href="tutorial2.html#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="do">##            due to          cases of           for the             to be </span></span>
+<span id="cb3-58"><a href="tutorial2.html#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="do">##               230               227               222               220 </span></span>
+<span id="cb3-59"><a href="tutorial2.html#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="do">##            on the          to covid           in sask           this is </span></span>
+<span id="cb3-60"><a href="tutorial2.html#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="do">##               210               210               205               203</span></span></code></pre></div>
+<p>We can use the <code>LDA()</code> function from the <code>topicmodels</code> to create a two-topic model. In reality, you may need to try different values of <em>k</em>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="tutorial2.html#cb4-1" aria-hidden="true" tabindex="-1"></a>tweet_lda2 <span class="ot">&lt;-</span> <span class="fu">LDA</span>(word_counts_dtm, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">control =</span> <span class="fu">list</span>(<span class="at">seed =</span> <span class="dv">1234</span>))</span>
+<span id="cb4-2"><a href="tutorial2.html#cb4-2" aria-hidden="true" tabindex="-1"></a>tweet_lda2</span>
+<span id="cb4-3"><a href="tutorial2.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">## A LDA_VEM topic model with 2 topics.</span></span>
+<span id="cb4-4"><a href="tutorial2.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#The terms that are particularly strongly linked to each of the topics</span></span>
+<span id="cb4-5"><a href="tutorial2.html#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(<span class="fu">terms</span>(tweet_lda2, <span class="dv">15</span>))</span>
+<span id="cb4-6"><a href="tutorial2.html#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="do">##         Topic 1     Topic 2</span></span>
+<span id="cb4-7"><a href="tutorial2.html#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 1         covid          19</span></span>
+<span id="cb4-8"><a href="tutorial2.html#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 2            19    pandemic</span></span>
+<span id="cb4-9"><a href="tutorial2.html#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 3         cases       covid</span></span>
+<span id="cb4-10"><a href="tutorial2.html#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 4          mask        sask</span></span>
+<span id="cb4-11"><a href="tutorial2.html#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 5          will     vaccine</span></span>
+<span id="cb4-12"><a href="tutorial2.html#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 6       covid19         new</span></span>
+<span id="cb4-13"><a href="tutorial2.html#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 7  saskatchewan coronavirus</span></span>
+<span id="cb4-14"><a href="tutorial2.html#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 8           new         get</span></span>
+<span id="cb4-15"><a href="tutorial2.html#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 9        people        like</span></span>
+<span id="cb4-16"><a href="tutorial2.html#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 10          one       cases</span></span>
+<span id="cb4-17"><a href="tutorial2.html#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="do">## 11       health        news</span></span>
+<span id="cb4-18"><a href="tutorial2.html#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="do">## 12           sk         can</span></span>
+<span id="cb4-19"><a href="tutorial2.html#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">## 13  coronavirus       masks</span></span>
+<span id="cb4-20"><a href="tutorial2.html#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="do">## 14         says      people</span></span>
+<span id="cb4-21"><a href="tutorial2.html#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="do">## 15          day        just</span></span></code></pre></div>
+<p>We can use the <code>LDA()</code> function from the <code>topicmodels</code> to create a four-topic model using the bi-gram.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="tutorial2.html#cb5-1" aria-hidden="true" tabindex="-1"></a>tweet_lda4 <span class="ot">&lt;-</span><span class="fu">LDA</span>(bigrams_counts_dtm, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">control =</span> <span class="fu">list</span>(<span class="at">seed =</span> <span class="dv">1234</span>))</span>
+<span id="cb5-2"><a href="tutorial2.html#cb5-2" aria-hidden="true" tabindex="-1"></a>tweet_lda4</span>
+<span id="cb5-3"><a href="tutorial2.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## A LDA_VEM topic model with 4 topics.</span></span>
+<span id="cb5-4"><a href="tutorial2.html#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#The terms that are particularly strongly linked to each of the topics</span></span>
+<span id="cb5-5"><a href="tutorial2.html#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(<span class="fu">terms</span>(tweet_lda4, <span class="dv">15</span>))</span>
+<span id="cb5-6"><a href="tutorial2.html#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">##            Topic 1           Topic 2         Topic 3      Topic 4</span></span>
+<span id="cb5-7"><a href="tutorial2.html#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 1        new cases social distancing           to be       of the</span></span>
+<span id="cb5-8"><a href="tutorial2.html#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 2         of covid         for covid      details at     of covid</span></span>
+<span id="cb5-9"><a href="tutorial2.html#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 3           in the            in the          in the    the covid</span></span>
+<span id="cb5-10"><a href="tutorial2.html#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 4         cases of            a mask      a pandemic the pandemic</span></span>
+<span id="cb5-11"><a href="tutorial2.html#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 5            19 in      the pandemic       gx94 news       in the</span></span>
+<span id="cb5-12"><a href="tutorial2.html#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 6  in saskatchewan            to the        of covid   during the</span></span>
+<span id="cb5-13"><a href="tutorial2.html#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 7           of the         the covid in saskatchewan       on the</span></span>
+<span id="cb5-14"><a href="tutorial2.html#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 8          in sask              i am          due to      this is</span></span>
+<span id="cb5-15"><a href="tutorial2.html#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 9        new covid            is the          to the     with the</span></span>
+<span id="cb5-16"><a href="tutorial2.html#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 10        19 cases             19 in          a mask     to covid</span></span>
+<span id="cb5-17"><a href="tutorial2.html#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="do">## 11          to the           in sask          have a         is a</span></span>
+<span id="cb5-18"><a href="tutorial2.html#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="do">## 12       the covid          on covid          of the  the vaccine</span></span>
+<span id="cb5-19"><a href="tutorial2.html#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="do">## 13         for the   the coronavirus        to covid     19 cases</span></span>
+<span id="cb5-20"><a href="tutorial2.html#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="do">## 14        total to          of covid            in a       to the</span></span>
+<span id="cb5-21"><a href="tutorial2.html#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="do">## 15        cases in            of the         have to      for the</span></span></code></pre></div>
+<div id="word-topic-probabilities" class="section level4 hasAnchor" number="3.2.1.1">
+<h4><span class="header-section-number">3.2.1.1</span> Word-topic probabilities<a href="tutorial2.html#word-topic-probabilities" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The tidytext package has method for extracting the per-topic-per-word probabilities, the <code>beta</code>, from the two-topic model.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="tutorial2.html#cb6-1" aria-hidden="true" tabindex="-1"></a>lda_topics <span class="ot">&lt;-</span><span class="fu">tidy</span>(tweet_lda2,<span class="at">matrix=</span><span class="st">&quot;beta&quot;</span>)</span>
+<span id="cb6-2"><a href="tutorial2.html#cb6-2" aria-hidden="true" tabindex="-1"></a>lda_topics</span>
+<span id="cb6-3"><a href="tutorial2.html#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 33,456 x 3</span></span>
+<span id="cb6-4"><a href="tutorial2.html#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">##    topic term           beta</span></span>
+<span id="cb6-5"><a href="tutorial2.html#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;int&gt; &lt;chr&gt;         &lt;dbl&gt;</span></span>
+<span id="cb6-6"><a href="tutorial2.html#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  1     1 agree     0.000325 </span></span>
+<span id="cb6-7"><a href="tutorial2.html#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  2     2 agree     0.000263 </span></span>
+<span id="cb6-8"><a href="tutorial2.html#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  3     1 also      0.000972 </span></span>
+<span id="cb6-9"><a href="tutorial2.html#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  4     2 also      0.00179  </span></span>
+<span id="cb6-10"><a href="tutorial2.html#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  5     1 don’t     0.00136  </span></span>
+<span id="cb6-11"><a href="tutorial2.html#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  6     2 don’t     0.00153  </span></span>
+<span id="cb6-12"><a href="tutorial2.html#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  7     1 everyone  0.00114  </span></span>
+<span id="cb6-13"><a href="tutorial2.html#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  8     2 everyone  0.00104  </span></span>
+<span id="cb6-14"><a href="tutorial2.html#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  9     1 isolating 0.0000790</span></span>
+<span id="cb6-15"><a href="tutorial2.html#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 10     2 isolating 0.000117 </span></span>
+<span id="cb6-16"><a href="tutorial2.html#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="do">## # ... with 33,446 more rows</span></span>
+<span id="cb6-17"><a href="tutorial2.html#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="tutorial2.html#cb6-18" aria-hidden="true" tabindex="-1"></a>lda_topics4 <span class="ot">&lt;-</span><span class="fu">tidy</span>(tweet_lda4,<span class="at">matrix=</span><span class="st">&quot;beta&quot;</span>)</span>
+<span id="cb6-19"><a href="tutorial2.html#cb6-19" aria-hidden="true" tabindex="-1"></a>lda_topics4</span>
+<span id="cb6-20"><a href="tutorial2.html#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 387,516 x 3</span></span>
+<span id="cb6-21"><a href="tutorial2.html#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="do">##    topic term            beta</span></span>
+<span id="cb6-22"><a href="tutorial2.html#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;</span></span>
+<span id="cb6-23"><a href="tutorial2.html#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  1     1 a way      2.07e-  5</span></span>
+<span id="cb6-24"><a href="tutorial2.html#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="do">##  2     2 a way      5.74e-  5</span></span>
+<span id="cb6-25"><a href="tutorial2.html#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="do">##  3     3 a way      8.99e-  5</span></span>
+<span id="cb6-26"><a href="tutorial2.html#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="do">##  4     4 a way      2.19e-  4</span></span>
+<span id="cb6-27"><a href="tutorial2.html#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="do">##  5     1 agree that 7.87e-197</span></span>
+<span id="cb6-28"><a href="tutorial2.html#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="do">##  6     2 agree that 4.57e-  5</span></span>
+<span id="cb6-29"><a href="tutorial2.html#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="do">##  7     3 agree that 1.93e- 10</span></span>
+<span id="cb6-30"><a href="tutorial2.html#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="do">##  8     4 agree that 6.92e-  5</span></span>
+<span id="cb6-31"><a href="tutorial2.html#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="do">##  9     1 also be    2.12e-  5</span></span>
+<span id="cb6-32"><a href="tutorial2.html#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="do">## 10     2 also be    1.59e-201</span></span>
+<span id="cb6-33"><a href="tutorial2.html#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="do">## # ... with 387,506 more rows</span></span></code></pre></div>
+<p>Find the 15 terms that are most common within each topic.<code>dplyr</code>’s <a href="https://dplyr.tidyverse.org/reference/slice.html"><code>slice_max()</code></a></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="tutorial2.html#cb7-1" aria-hidden="true" tabindex="-1"></a>ap_top_terms <span class="ot">&lt;-</span> lda_topics <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="tutorial2.html#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="tutorial2.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(beta, <span class="at">n =</span> <span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="tutorial2.html#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="tutorial2.html#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(topic, <span class="sc">-</span>beta)</span>
+<span id="cb7-6"><a href="tutorial2.html#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="tutorial2.html#cb7-7" aria-hidden="true" tabindex="-1"></a>ap_top_terms <span class="sc">%&gt;%</span></span>
+<span id="cb7-8"><a href="tutorial2.html#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">reorder_within</span>(term, beta, topic)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="tutorial2.html#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(beta, term, <span class="at">fill =</span> <span class="fu">factor</span>(topic))) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="tutorial2.html#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="tutorial2.html#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> topic, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="tutorial2.html#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reordered</span>()<span class="sc">+</span></span>
+<span id="cb7-13"><a href="tutorial2.html#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;The terms that are most common within each topic&quot;</span>)</span></code></pre></div>
+<p><img src="AI4PH2022_files/figure-html/tmldad-1.png" width="672" /></p>
+<p>Find the 15 terms that are most common within each topic.<code>dplyr</code>’s <a href="https://dplyr.tidyverse.org/reference/slice.html"><code>slice_max()</code></a></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="tutorial2.html#cb8-1" aria-hidden="true" tabindex="-1"></a>ap_top_terms4 <span class="ot">&lt;-</span> lda_topics4 <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="tutorial2.html#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="tutorial2.html#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(beta, <span class="at">n =</span> <span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="tutorial2.html#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="tutorial2.html#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(topic, <span class="sc">-</span>beta)</span>
+<span id="cb8-6"><a href="tutorial2.html#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="tutorial2.html#cb8-7" aria-hidden="true" tabindex="-1"></a>ap_top_terms4 <span class="sc">%&gt;%</span></span>
+<span id="cb8-8"><a href="tutorial2.html#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">reorder_within</span>(term, beta, topic)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-9"><a href="tutorial2.html#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(beta, term, <span class="at">fill =</span> <span class="fu">factor</span>(topic))) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="tutorial2.html#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="tutorial2.html#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> topic, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-12"><a href="tutorial2.html#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reordered</span>()<span class="sc">+</span></span>
+<span id="cb8-13"><a href="tutorial2.html#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;The terms that are most common within each topic&quot;</span>)</span></code></pre></div>
+<p><img src="AI4PH2022_files/figure-html/tmldad4-1.png" width="672" /></p>
+<p>Find the terms that generate the greatest difference in beta between two topics.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="tutorial2.html#cb9-1" aria-hidden="true" tabindex="-1"></a>beta_wide <span class="ot">&lt;-</span> lda_topics <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="tutorial2.html#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">topic =</span> <span class="fu">paste0</span>(<span class="st">&quot;topic&quot;</span>, topic)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="tutorial2.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> topic, <span class="at">values_from =</span> beta) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="tutorial2.html#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(topic1 <span class="sc">&gt;</span> .<span class="dv">001</span> <span class="sc">|</span> topic2 <span class="sc">&gt;</span> .<span class="dv">001</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="tutorial2.html#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">log_ratio =</span> <span class="fu">log2</span>(topic2 <span class="sc">/</span> topic1))</span>
+<span id="cb9-6"><a href="tutorial2.html#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="tutorial2.html#cb9-7" aria-hidden="true" tabindex="-1"></a>beta_wide <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="fu">abs</span>(log_ratio)))<span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-8"><a href="tutorial2.html#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(log_ratio)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-9"><a href="tutorial2.html#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(log_ratio, term)) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="tutorial2.html#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb9-11"><a href="tutorial2.html#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Terms with the great difference in beta between two topics&quot;</span>)</span></code></pre></div>
+<p><img src="AI4PH2022_files/figure-html/tmldae-1.png" width="672" /></p>
+</div>
+<div id="document-topic-probabilities" class="section level4 hasAnchor" number="3.2.1.2">
+<h4><span class="header-section-number">3.2.1.2</span> Document-topic probabilities<a href="tutorial2.html#document-topic-probabilities" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>LDA models each document as a mix of topics and words. With <code>matrix = "gamma"</code>, we can investigate <code>per-document-per-topic</code> probabilities.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="tutorial2.html#cb10-1" aria-hidden="true" tabindex="-1"></a>lda_documents <span class="ot">&lt;-</span> <span class="fu">tidy</span>(tweet_lda2, <span class="at">matrix =</span> <span class="st">&quot;gamma&quot;</span>)</span>
+<span id="cb10-2"><a href="tutorial2.html#cb10-2" aria-hidden="true" tabindex="-1"></a>lda_documents</span>
+<span id="cb10-3"><a href="tutorial2.html#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 25,616 x 3</span></span>
+<span id="cb10-4"><a href="tutorial2.html#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="do">##    document topic gamma</span></span>
+<span id="cb10-5"><a href="tutorial2.html#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="do">##    &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;</span></span>
+<span id="cb10-6"><a href="tutorial2.html#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  1 18           1 0.512</span></span>
+<span id="cb10-7"><a href="tutorial2.html#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  2 30           1 0.512</span></span>
+<span id="cb10-8"><a href="tutorial2.html#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  3 31           1 0.510</span></span>
+<span id="cb10-9"><a href="tutorial2.html#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  4 38           1 0.500</span></span>
+<span id="cb10-10"><a href="tutorial2.html#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  5 47           1 0.514</span></span>
+<span id="cb10-11"><a href="tutorial2.html#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  6 57           1 0.507</span></span>
+<span id="cb10-12"><a href="tutorial2.html#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  7 95           1 0.520</span></span>
+<span id="cb10-13"><a href="tutorial2.html#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  8 100          1 0.501</span></span>
+<span id="cb10-14"><a href="tutorial2.html#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  9 163          1 0.475</span></span>
+<span id="cb10-15"><a href="tutorial2.html#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 10 175          1 0.490</span></span>
+<span id="cb10-16"><a href="tutorial2.html#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="do">## # ... with 25,606 more rows</span></span></code></pre></div>
+<p>Each of these values represents an estimated percentage of the document’s words that are from each topic. Many of these tweets were drawn from more than 1 topic.</p>
+
+</div>
+</div>
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Crain2012-tg" class="csl-entry">
+Crain, Steven P, Ke Zhou, Shuang-Hong Yang, and Hongyuan Zha. 2012. <span>“Dimensionality Reduction and Topic Modeling: From Latent Semantic Indexing to Latent Dirichlet Allocation and Beyond.”</span> In <em>Mining Text Data</em>, edited by Charu C Aggarwal and Chengxiang Zhai, 129–61. Boston, MA: Springer US.
+</div>
+<div id="ref-Silge2017-yl" class="csl-entry">
+Silge, Julia, and David Robinson. 2017. <em>Text Mining with r: A Tidy Approach</em>. 1st ed. O’Reilly Media.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tutorial.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-challenge-prep.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["AI4PH2022.pdf", "AI4PH2022.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
