@@ -1,5 +1,6 @@
 # Tutorial on Text Analytics Using R (AI4PH 2022)
 Welcome to the Artificial Intelligence for Public Health (AI4PH) event in 2022. 
+
 The tutorial and data challenge materials can be found at: https://bookdown.org/tianyuan09/ai4ph2022/. 
 
 This online tutorial will accompany two sessions:
