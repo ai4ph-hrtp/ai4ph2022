@@ -5,7 +5,15 @@ The tutorial and data challenge materials can be found at: https://bookdown.org/
 
 This online tutorial will accompany two sessions:
 
-* Tutorial on text analytics with R
+* **Tutorial on text analytics with R**
+  * **data pre-processing**
+    * regular expressions
+    * tokenization
+    * stopwords
+    * stemming
+    * Exploratory data analysis
+  * **supervised learning** (classification models)
+  * **unsupervised learning** (topic modelling)
 * Data Challenge using the N2C2 NLP Research Datasets
 
 ## The Twitter Datasets
